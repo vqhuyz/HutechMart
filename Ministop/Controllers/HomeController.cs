@@ -34,5 +34,21 @@ namespace Ministop.Controllers
 
             return View();
         }
+
+        public JsonResult GetData(string thang)
+        {
+            var dt = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            List<DoanhSoViewModel> data = new List<DoanhSoViewModel>();
+            for (int i = 1; i <= dt; i++)
+            {
+                using (var conn = new SqlConnection(Common.ConnectionS.connectionString))
+                {
+                    var doanhSo = conn.Query<string>("sp_DoanhSo_Thang", new { ngay = i }, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                    double test = Convert.ToDouble(doanhSo);
+                    data.Add(new DoanhSoViewModel(test, "Ngày" + i.ToString()));
+                }
+            }           
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
     }
 }

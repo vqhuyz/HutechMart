@@ -3,7 +3,49 @@
 
 @section Scripts{
     <script>
-window.onload = function () {
+        function Click123() {
+            $("#123").click(function (e) {
+                e.preventDefault();
+                var thang = $("#thang option:selected").val();
+                console.log(thang);
+            })
+        }
+        window.onload = function () {
+
+
+         $.getJSON("/Home/GetData", function (data) {
+
+        var doanhSo = []
+        var ngay = []
+        for (var i = 0; i < data.length; i++) {
+            doanhSo.push(data[i].DoanhSo);
+            ngay.push(data[i].Ngay);
+        }
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: "Doanh thu tháng" + @ViewBag.Thang
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'DOANH THU'
+                }
+            },
+            xAxis: {
+                categories: ngay
+            },
+            series: [{
+                name: 'Ngày',
+                data: doanhSo
+            }]
+        });
+
+     });
+
     var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	theme: "light1", // "light1", "dark1", "dark2"
@@ -17,30 +59,6 @@ window.onload = function () {
 	}]
     });
     chart.render();
-
-
-    Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'TEST BIEU DO'
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'DOANH THU'
-            }
-        },
-        xAxis: {
-            categories: ['ngay1', 'ngay2', 'ngay3', 'ngay4', 'ngay5', 'ngay6', 'ngay7']
-        },
-
-        series: [{
-            name: 'Doanh thu',
-            data: [2,4,6,8,9]
-        }]
-    });
 }
     </script>
 }
@@ -51,10 +69,14 @@ window.onload = function () {
     </div>
 
     <div class="col-lg-6">
-        <figure class="highcharts-figure">
-            <div id="container"></div>     
-        </figure>
-
+        <select id="thang" name="thang">
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i">Tháng @i</option>
+            }
+        </select>
+        <button id="123" onclick="Click123()">123</button>
+        <div id="container"></div>
     </div>
 </div>
 

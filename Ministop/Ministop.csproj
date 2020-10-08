@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="ModelsView\DataPoint.cs" />
     <Compile Include="ModelsView\DatHangViewModel.cs" />
+    <Compile Include="ModelsView\DoanhSoViewModel.cs" />
     <Compile Include="ModelsView\KhachHangViewModel.cs" />
     <Compile Include="ModelsView\LoaiSanPhamViewModel.cs" />
     <Compile Include="ModelsView\NhaCungCapViewModel.cs" />
