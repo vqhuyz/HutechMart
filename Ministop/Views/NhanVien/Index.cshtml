@@ -77,7 +77,7 @@
                             {
                                 if (item.TinhTrang == true)
                                 {
-                                    <tr id="row_@item.ID" data-toggle="collapse" data-target="#accordion" class="clickable">
+                                    <tr id="row_@item.ID" data-toggle="collapse" data-target="#accordion_@item.ID" class="clickable">
                                         <td><input type="checkbox" /></td>
                                         <td>@item.ID</td>
                                         <td>@item.TenNhanVien</td>
@@ -98,7 +98,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="7">
-                                            <div id="accordion" class="collapse">
+                                            <div id="accordion_@item.ID" class="collapse">
                                                 <img src="~/Img/NhanVien/@item.HinhAnh" width="150" height="150" />
                                                 <h5>@item.TenNhanVien</h5>
                                             </div>
