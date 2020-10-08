@@ -10,8 +10,8 @@ namespace Ministop.DI.Interfaces
 {
     public interface INhapHangService
     {
-        IEnumerable<DatHangViewModel> GetAll();
-        bool ThemMoi(DatHangViewModel _datHang);
+        //IEnumerable<DatHangViewModel> GetAll();
+        //bool ThemMoi(DatHangViewModel _datHang);
     }
 
 }

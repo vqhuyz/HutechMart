@@ -16,26 +16,12 @@ namespace Ministop.Controllers
     {
         public ActionResult Index()
         {
-
-            var dt = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-            List<DataPoint> dataPoints = new List<DataPoint>();
-            for (int i = 1; i <= dt; i++)
-            {
-                using (var conn = new SqlConnection(Common.ConnectionS.connectionString))
-                {
-                    var doanhSo = conn.Query<string>("sp_DoanhSo_Thang", new { ngay = i }, commandType: CommandType.StoredProcedure).FirstOrDefault();
-                    double test = Convert.ToDouble(doanhSo);
-                    dataPoints.Add(new DataPoint("Ngày" + i.ToString(), test));
-                }
-
-            }
-            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             ViewBag.Thang = DateTime.Now.Month;
 
             return View();
         }
 
-        public JsonResult GetData(string thang)
+        public JsonResult GetData()
         {
             var dt = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             List<DoanhSoViewModel> data = new List<DoanhSoViewModel>();
@@ -47,7 +33,7 @@ namespace Ministop.Controllers
                     double test = Convert.ToDouble(doanhSo);
                     data.Add(new DoanhSoViewModel(test, "Ngày" + i.ToString()));
                 }
-            }           
+            }
             return Json(data, JsonRequestBehavior.AllowGet);
         }
     }

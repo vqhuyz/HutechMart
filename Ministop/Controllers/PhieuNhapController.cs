@@ -10,26 +10,26 @@ namespace Ministop.Controllers
 {
     public class PhieuNhapController : Controller
     {
-        INhapHangService nhapHang;
-        public PhieuNhapController(INhapHangService _nhapHang)
-        {
-            nhapHang = _nhapHang;
-        }
-        // GET: PhieuNhap
-        public ActionResult Index()
-        {
-            return View(nhapHang.GetAll());
-        }
+        //INhapHangService nhapHang;
+        //public PhieuNhapController(INhapHangService _nhapHang)
+        //{
+        //    nhapHang = _nhapHang;
+        //}
+        //// GET: PhieuNhap
+        //public ActionResult Index()
+        //{
+        //    return View(nhapHang.GetAll());
+        //}
 
-        public ActionResult ThemMoi()
-        {
-            return View();
-        }
+        //public ActionResult ThemMoi()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public JsonResult ThemMoi(DatHangViewModel _datHang)
-        {
-            return Json(nhapHang.ThemMoi(_datHang), JsonRequestBehavior.AllowGet);
-        }
+        //[HttpPost]
+        //public JsonResult ThemMoi(DatHangViewModel _datHang)
+        //{
+        //    return Json(nhapHang.ThemMoi(_datHang), JsonRequestBehavior.AllowGet);
+        //}
     }
 }
