@@ -1,0 +1,34 @@
+﻿@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnCreate").click(function (e) {
+                e.preventDefault();
+                var TenLoai = ("#TenLoai").val();
+                var obj = {
+                    TenLoai: TenLoai
+                }
+                console.log(TenLoai);
+                console.log(obj);
+                $.ajax({
+                    type: "POST",
+                    url: "/SanPham/LoaiSanPham",
+                    data: obj,
+                    success: function (result) {
+                        alert("ok");
+                    }
+                })
+            })
+        })
+    </script>
+    }
+<div class="modal-header">
+    <h4 class="modal-title">Loại sản phẩm mới</h4>
+</div><div class="container"></div>
+<div class="modal-body">
+    <form id="formCreate">
+        <input class="form-control" id="TenLoai" name="TenLoai" type="text" />
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary" id="btnCreate">Lưu</button>
+</div>

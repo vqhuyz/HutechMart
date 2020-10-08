@@ -1,0 +1,24 @@
+﻿@model Ministop.Models.DangNhap
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministop</title>
+    <link rel="stylesheet" href="~/Assets/Login/css/style.css">
+</head>
+<body>
+    <div id='loginForm' class="wrapper">
+        <h1>ĐĂNG NHẬP</h1>
+        @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+        {
+            @Html.ValidationSummary(false, "", new { @style = "color: red" })
+            <form action="">
+                @Html.TextBoxFor(model => model.TaiKhoan, new { @class = "form-control", placeholder = "Tài khoản", required = "required" })
+                @Html.PasswordFor(model => model.MatKhau, new { @class = "form-control", placeholder = "Mật khẩu", required = "required" })
+                <input type="submit" value="Đăng Nhập">
+            </form>
+        }
+    </div>
+</body>
+</html>

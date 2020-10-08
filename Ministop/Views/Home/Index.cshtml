@@ -1,0 +1,60 @@
+﻿@{ Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Home Page"; }
+
+@section Scripts{
+    <script>
+window.onload = function () {
+    var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light1", // "light1", "dark1", "dark2"
+	exportEnabled: true,
+	title: {
+		text: "Doanh thu tháng  @ViewBag.Thang"
+	},
+	data: [{
+		type: "area",
+		dataPoints:  @Html.Raw(ViewBag.DataPoints)
+	}]
+    });
+    chart.render();
+
+
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'TEST BIEU DO'
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'DOANH THU'
+            }
+        },
+        xAxis: {
+            categories: ['ngay1', 'ngay2', 'ngay3', 'ngay4', 'ngay5', 'ngay6', 'ngay7']
+        },
+
+        series: [{
+            name: 'Doanh thu',
+            data: [2,4,6,8,9]
+        }]
+    });
+}
+    </script>
+}
+<br />
+<div class="col-lg-12">
+    <div class="col-lg-6">
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    </div>
+
+    <div class="col-lg-6">
+        <figure class="highcharts-figure">
+            <div id="container"></div>     
+        </figure>
+
+    </div>
+</div>
+

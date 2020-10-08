@@ -1,0 +1,103 @@
+﻿@model PagedList.IPagedList<Ministop.ModelsView.KhachHangViewModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="details mainLeft">
+    <div>
+        <div class="col-xs-3">
+            <h3 class="text-center">Khách hàng</h3>
+            <div class="box">
+                <div class="box-body">
+                    <table id="productDetails" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Một cái gì đó</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content mainRight">
+    <div>
+        <div class="col-xs-9">
+            @using (Html.BeginForm("Index", "KhachHang", FormMethod.Get))
+            {
+                <input type="text" name="search" placeholder="Theo tên, số điện thoại" />
+            }
+            <aside class="header-filter-buttons">
+                <a href="@Url.Action("ThemMoi")" class="btn btn-success">
+                    <i class="fa fa-plus">1</i>
+                </a>
+            </aside>
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" /></th>
+                                <th>ID</th>
+                                <th>Họ tên</th>
+                                <th>Giới tính</th>
+                                <th>Ngày sinh</th>
+                                <th>Số điện thoại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.TinhTrang == true)
+                                {
+                                    <tr id="row_@item.ID">
+                                        <td><input type="checkbox" /></td>
+                                        <td>@item.ID</td>
+                                        <td>@item.TenKH</td>
+                                        <td>@item.GioiTinh</td>
+                                        <td>@String.Format("{0:dd/MM/yyyy}", item.NgaySinh)</td>
+                                        <td>@item.SoDT</td>
+                                        <td>
+                                            <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
+                                                <i class="fa fa-plus">2</i>
+                                            </a>
+                                            @Ajax.ActionLink(" ", "Xoa", "KhachHang", new { id = item.ID }, new AjaxOptions
+                                       {
+                                           Confirm = "Bạn có chắc chắn muốn xóa khách hàng này?",
+                                           OnComplete = "$('#row_" + item.ID + "').remove()",
+                                           HttpMethod = "Delete"
+                                       }, new { @class = "fa fa-plus" })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.Search }))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

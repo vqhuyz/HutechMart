@@ -1,0 +1,15 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+
+.price{
+	position: absolute;
+	top: 115px;
+	left: 15px;
+	background: #efefef;
+	padding: 0 5px;
+}
+
+.shopping-cart

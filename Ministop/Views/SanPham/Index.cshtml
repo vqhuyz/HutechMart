@@ -1,0 +1,116 @@
+﻿@model PagedList.IPagedList<Ministop.ModelsView.SanPhamViewModel>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="details mainLeft">
+    <div>
+        <div class="col-xs-3">
+            <h3 class="text-center">Sản phẩm</h3>
+            <div class="box">
+                <div class="box-body">
+                    <table id="productDetails" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Một cái gì đó</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content mainRight">
+    <div>
+        <div class="col-xs-9">
+            @using (Html.BeginForm("Index", "SanPham", FormMethod.Get))
+            {
+                <input type="text" name="search" placeholder="Theo tên, thương hiệu" />
+            }
+            <aside class="header-filter-buttons">
+                <a href="@Url.Action("ThemMoi")" class="btn btn-success" data-toggle="modal" data-target="#themMoi" data-backdrop="false">
+                    <i class="fa fa-plus">Thêm mới</i>
+                </a>
+            </aside>
+            <!-- Modal -->
+            <div class="modal fade" id="themMoi" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" /></th>
+                                <th>ID</th>
+                                <th>Tên hàng</th>
+                                <th>Giá bán</th>
+                                <th>Giá vốn</th>
+                                <th>Tồn kho</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                if (item.TinhTrang == true)
+                                {
+                                    <tr id="row_@item.ID" data-toggle="collapse" data-target="#accordion" class="clickable">
+                                        <td><input type="checkbox" /></td>
+                                        <td>@item.ID</td>
+                                        <td>@item.TenSanPham</td>
+                                        <td>@item.GiaBan</td>
+                                        <td>@item.GiaNhap</td>
+                                        <td>@item.SoLuong</td>
+                                        <td>
+                                            <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#capNhat-@item.ID" data-backdrop="static">
+                                                <i class="fa fa-plus">2</i>
+                                            </a>
+                                            <div class="modal fade" id="capNhat-@item.ID" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @Ajax.ActionLink(" ", "Xoa", "SanPham", new { id = item.ID }, new AjaxOptions
+                                       {
+                                           Confirm = "Bạn có chắc chắn muốn xóa sản phẩm này?",
+                                           OnComplete = "$('#row_" + item.ID + "').remove()",
+                                           HttpMethod = "Delete"
+                                       }, new { @class = "fa fa-plus" })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.Search }))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

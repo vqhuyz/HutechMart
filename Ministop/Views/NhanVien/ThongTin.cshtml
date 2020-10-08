@@ -1,0 +1,206 @@
+﻿@model Ministop.ModelsView.NhanVienViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnUpdate").click(function (e) {
+                e.preventDefault();
+
+                var data = $("#formThongTin").serialize();
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    url: "/NhanVien/CapNhat",
+                    data: data,
+                    success: function (result) {
+                        if (result) {
+                            alert("Cập nhật thông tin thành công!");
+                            window.location.reload();
+                        }
+                        else {
+                            alert("Số điện thoại hoặc Email hoặc Số chứng minh đã tồn tại");
+                            window.location.reload();
+                        }
+                    }
+                })
+            })
+
+            $("#btnDoiMatKhau").click(function (e) {
+                e.preventDefault();
+
+                var data = $("#formDoiMatKhau").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/NhanVien/DoiMatKhau",
+                    data: data,
+                    success: function (result) {
+                        if (result) {
+                            alert("Đổi mật khẩu thành công!");
+                            window.location.href = "/Login/Index";
+                        }
+                        else {
+                            alert("Đổi mật khẩu thất bại!");
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+}
+
+<br />
+<div class="row">
+    <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="box box-primary">
+            <div class="box-body box-profile">
+                <img class="profile-user-img img-responsive img-circle" src="../../Img/NhanVien/@Model.HinhAnh" alt="Ảnh nhân viên">
+
+                <p class="text-muted text-center">@Model.ChucVu</p>
+
+                <h3 class="profile-username text-center">@Model.TenNhanVien</h3>
+
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>Số điện thoại</b> <a class="pull-right">@Model.SoDT</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Email</b> <a class="pull-right">@Model.Email</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Địa chỉ</b> <a class="pull-right">@Model.DiaChi</a>
+                    </li>
+                </ul>
+
+                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#activity" data-toggle="tab">Thông tin</a></li>
+                <li><a href="#settings" data-toggle="tab">Đổi mật khẩu</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="active tab-pane" id="activity">
+                    <!-- Post -->
+                    <form class="form-horizontal" id="formThongTin">
+                        @Html.HiddenFor(model => model.ID)
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TenNhanVien, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.TenNhanVien, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.TenNhanVien, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.GioiTinh, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.GioiTinh, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NgaySinh, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.NgaySinh, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NgaySinh, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SoCMND, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.SoCMND, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SoCMND, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SoDT, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.SoDT, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SoDT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DiaChi, htmlAttributes: new { @class = "col-sm-2 control-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DiaChi, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-danger" id="btnUpdate">Cập nhật</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="settings">
+                    <form class="form-horizontal" id="formDoiMatKhau">
+                        @Html.HiddenFor(model => model.ID)
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Tài khoản</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="TaiKhoan" name="TaiKhoan" value="@Model.TaiKhoan" readonly="readonly">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Mật khẩu cũ</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="MatKhauCu" name="MatKhauCu"  placeholder="Nhập mật khẩu hiện tại">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputName" class="col-sm-2 control-label">Mật khẩu mới</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="MatKhauMoi" name="MatKhauMoi" placeholder="Nhập mật khẩu mới">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-danger" id="btnDoiMatKhau">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- /.nav-tabs-custom -->
+    </div>
+</div>
+
