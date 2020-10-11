@@ -12,36 +12,48 @@
 
 
          $.getJSON("/Home/GetData", function (data) {
+             var categories = []
+             var series = []
+             var series2 = []
+             for (var i = 0; i < data.dulieu.length; i++) {
+                 var sr = data.dulieu[i].data
+                 var sr2 = data.dulieu[i + 1].data
 
-        var doanhSo = []
-        var ngay = []
-        for (var i = 0; i < data.length; i++) {
-            doanhSo.push(data[i].DoanhSo);
-            ngay.push(data[i].Ngay);
-        }
+                 for (var i = 0; i < sr.length; i++) {
+                      categories.push(sr[i].ngay)
+                      series.push(sr[i].doanhso)
+                 }
 
-        Highcharts.chart('container', {
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: "Doanh thu tháng" + @ViewBag.Thang
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'DOANH THU'
-                }
-            },
-            xAxis: {
-                categories: ngay
-            },
-            series: [{
-                name: 'Ngày',
-                data: doanhSo
-            }]
-        });
+                 for (var i = 0; i < sr2.length; i++) {
+                     series2.push(sr2[i].doanhso)
+                 }
+             }
 
+             var json = {
+                 chart: {
+                     type: 'column'
+                 },
+                 title: {
+                     text: "Doanh thu tháng" + @ViewBag.Thang
+                    },
+                 yAxis: {
+                     min: 0,
+                     title: {
+                         text: 'DOANH THU'
+                     }
+                 },
+                 xAxis: {
+                     categories: categories
+                 },
+                 series: [{
+                     name: 'Doanh so ngay theo thang',
+                     data: series
+                 }, {
+                         name: 'Doanh so ngay theo tuan',
+                         data: series2
+                     }]
+             }
+         Highcharts.chart('container', json);
      });
 }
     </script>

@@ -7,12 +7,21 @@ namespace Ministop.ModelsView
 {
     public class DoanhSoViewModel
     {
-        public DoanhSoViewModel(double doanhso, string ngay)
-        {
-            this.DoanhSo = doanhso;
-            this.Ngay = ngay;
-        }
-        public double DoanhSo { get; set; }
-        public string Ngay { get; set; }
+        public List<Dulieu> dulieu { get; set; }
     }
+    public class DoanhSoView
+    {
+        public DoanhSoView(double doanhso,string ngay)
+        {
+            this.ngay = ngay;
+            this.doanhso = doanhso;
+        }
+        public string ngay { get; set; }
+        public double doanhso { get; set; }
+    }
+    public class Dulieu
+    {
+        public List<DoanhSoView> data { get; set; }
+    }
+
 }

@@ -20,7 +20,7 @@ namespace Ministop.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string taiKhoan, string matKhau)
+        public JsonResult Index(string taiKhoan, string matKhau)
         {
             matKhau = Encryptor.MD5Hash(matKhau);
             using (var db = new SqlConnection(ConnectionS.connectionString))
@@ -34,11 +34,9 @@ namespace Ministop.Controllers
                     Session["HinhAnh"] = dangNhap.HinhAnh;
                     Session["QuyenHan"] = dangNhap.PhanQuyenID;
 
-                    return RedirectToAction("Index", "Home");
+                    return Json("OK",JsonRequestBehavior.AllowGet);
                 }
-                else
-                    ModelState.AddModelError("", "Tài khoản hoặc mật khẩu không đúng");
-                return View();
+                return Json("!OK", JsonRequestBehavior.AllowGet);
             }
         }
 

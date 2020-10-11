@@ -253,8 +253,6 @@ C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Unity.Abstractions.dll
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Unity.Container.dll
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Unity.Mvc5.dll
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\WebGrease.dll
-C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\System.Threading.Tasks.Extensions.dll
-C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Dapper.xml
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\EntityFramework.xml
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\EntityFramework.SqlServer.xml
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\PagedList.xml
@@ -272,8 +270,8 @@ C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Unity.Abstractions.pdb
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Unity.Container.pdb
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Antlr3.Runtime.pdb
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\obj\Debug\Ministop.csprojAssemblyReference.cache
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\obj\Debug\Ministop.csproj.CoreCompileInputs.cache
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\obj\Debug\Ministop.csproj.CopyComplete
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\obj\Debug\Ministop.dll
 C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\obj\Debug\Ministop.pdb
+C:\Users\HuyNef\Desktop\DA-Ministop-main\Ministop\obj\Debug\Ministop.csprojAssemblyReference.cache

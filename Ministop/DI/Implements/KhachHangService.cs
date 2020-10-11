@@ -40,36 +40,26 @@ namespace Ministop.DI.Implements
         public bool ThemMoi(KhachHangViewModel _khachHang)
         {
             bool result = false;
-            KhachHang khachHang = new KhachHang();
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                using (var trans = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        khachHang.TenKH = _khachHang.TenKH;
-                        khachHang.DiaChi = _khachHang.DiaChi;
-                        khachHang.Email = _khachHang.Email.Trim();
-                        khachHang.Facebook = _khachHang.Facebook;
-                        khachHang.GhiChu = _khachHang.GhiChu;
-                        khachHang.GioiTinh = _khachHang.GioiTinh;
-                        khachHang.NgaySinh = _khachHang.NgaySinh;
-                        khachHang.SoCMND = _khachHang.SoCMND.Trim();
-                        khachHang.SoDT = _khachHang.SoDT.Trim();
-                        khachHang.NgayThamGia = DateTime.Now;
-                        khachHang.TinhTrang = true;
-                        db.KhachHangs.Add(khachHang);
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                    }
-                }
-                return result;
+                var themMoi = connection.Execute("sp_ThemMoi_KhachHang",
+                                new
+                                {
+                                    tenKH = _khachHang.TenKH,
+                                    gioiTinh = _khachHang.GioiTinh,
+                                    ngaySinh = _khachHang.NgaySinh,
+                                    soCMND = _khachHang.SoCMND,
+                                    soDT = _khachHang.SoDT,
+                                    email = _khachHang.Email,
+                                    diaChi = _khachHang.DiaChi,
+                                    facebook = _khachHang.Facebook,
+                                    ghiChu = _khachHang.GhiChu,
+                                    tinhTrang = true,
+                                    ngayThamGia = DateTime.Now
+                                }, commandType: CommandType.StoredProcedure);
+                result = true;
             }
+            return result;
         }
 
         public bool Xoa(int id)

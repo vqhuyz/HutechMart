@@ -17,8 +17,9 @@ namespace Ministop.Controllers
             nhanVien = _nhanVien;
         }
         // GET: NhanVien
-        public ActionResult Index(string search, int page = 1, int pagesize = 10)
+        public ActionResult Index(string search, int page = 1, int pagesize = 1)
         {
+            ViewBag.Search = search;
             return View(nhanVien.GetAll(search, page, pagesize));
         }
 
