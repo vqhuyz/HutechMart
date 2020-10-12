@@ -72,7 +72,7 @@
                             {
                                 if (item.TinhTrang == true)
                                 {
-                                    <tr id="row_@item.ID">
+                                    <tr>
                                         <td><input type="checkbox" /></td>
                                         <td>@item.ID</td>
                                         <td>@item.TenKH</td>
@@ -83,12 +83,9 @@
                                             <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
                                                 <i class="fa fa-plus">2</i>
                                             </a>
-                                            @Ajax.ActionLink(" ", "Xoa", "KhachHang", new { id = item.ID }, new AjaxOptions
-                                       {
-                                           Confirm = "Bạn có chắc chắn muốn xóa khách hàng này?",
-                                           OnComplete = "$('#row_" + item.ID + "').remove()",
-                                           HttpMethod = "Delete"
-                                       }, new { @class = "fa fa-plus" })
+                                            <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
+                                                <i class="fa fa-plus">2</i>
+                                            </a>
                                         </td>
                                     </tr>
                                 }

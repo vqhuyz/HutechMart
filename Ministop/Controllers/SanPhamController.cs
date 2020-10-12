@@ -59,12 +59,17 @@ namespace Ministop.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
-        public JsonResult Xoa(int id)
+        public ActionResult Xoa(int id)
         {
             bool result = sanPham.Xoa(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index");
         }
+
+        //public JsonResult Xoa(int id)
+        //{
+        //    bool result = sanPham.Xoa(id);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
 
         public ActionResult LoaiSanPham()
         {  

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Web;
 using Ministop.Common;
 using Ministop.ModelsView;
-using Ministop.Models;
 using PagedList;
 
 namespace Ministop.DI.Implements
@@ -42,35 +41,37 @@ namespace Ministop.DI.Implements
             bool result = false;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var themMoi = connection.Execute("sp_ThemMoi_KhachHang",
-                                new
-                                {
-                                    tenKH = _khachHang.TenKH,
-                                    gioiTinh = _khachHang.GioiTinh,
-                                    ngaySinh = _khachHang.NgaySinh,
-                                    soCMND = _khachHang.SoCMND,
-                                    soDT = _khachHang.SoDT,
-                                    email = _khachHang.Email,
-                                    diaChi = _khachHang.DiaChi,
-                                    facebook = _khachHang.Facebook,
-                                    ghiChu = _khachHang.GhiChu,
-                                    tinhTrang = true,
-                                    ngayThamGia = DateTime.Now
-                                }, commandType: CommandType.StoredProcedure);
-                result = true;
+                try
+                {
+                    var themMoi = connection.Execute("sp_ThemMoi_KhachHang",
+                                  new
+                                  {
+                                      tenKH = _khachHang.TenKH,
+                                      gioiTinh = _khachHang.GioiTinh,
+                                      ngaySinh = _khachHang.NgaySinh,
+                                      soCMND = _khachHang.SoCMND,
+                                      soDT = _khachHang.SoDT,
+                                      email = _khachHang.Email,
+                                      diaChi = _khachHang.DiaChi,
+                                      facebook = _khachHang.Facebook,
+                                      ghiChu = _khachHang.GhiChu,
+                                      tinhTrang = true,
+                                      ngayThamGia = DateTime.Now
+                                  }, commandType: CommandType.StoredProcedure);
+                    result = true;
+                }
+                catch { }
             }
             return result;
         }
 
         public bool Xoa(int id)
         {
+
             bool result = false;
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var khachHang = db.KhachHangs.Find(id);
-                khachHang.TinhTrang = false;
-                khachHang.NgayCapNhat = DateTime.Now;
-                db.SaveChanges();
+                var Xoa = connection.Execute("sp_Xoa_KhachHang", new { Id = id, tinhTrang = false, ngayCapNhat = DateTime.Now }, commandType: CommandType.StoredProcedure);
                 result = true;
             }
             return result;
@@ -79,35 +80,32 @@ namespace Ministop.DI.Implements
         public bool CapNhat(KhachHangViewModel _khachHang)
         {
             bool result = false;
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var khachHang = db.KhachHangs.Find(_khachHang.ID);
-                using (var trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
-                    {
-                        khachHang.TenKH = _khachHang.TenKH;
-                        khachHang.DiaChi = _khachHang.DiaChi;
-                        khachHang.Email = _khachHang.Email.Trim();
-                        khachHang.Facebook = _khachHang.Facebook;
-                        khachHang.GhiChu = _khachHang.GhiChu;
-                        khachHang.GioiTinh = _khachHang.GioiTinh;
-                        khachHang.NgaySinh = _khachHang.NgaySinh;
-                        khachHang.SoCMND = _khachHang.SoCMND.Trim();
-                        khachHang.SoDT = _khachHang.SoDT.Trim();
-                        khachHang.NgayCapNhat = DateTime.Now;
-                        khachHang.TinhTrang = true;
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                    }
+                    var capNhat = connection.Execute("sp_CapNhat_KhachHang",
+                             new
+                             {
+                                 id = _khachHang.ID,
+                                 tenKH = _khachHang.TenKH,
+                                 gioiTinh = _khachHang.GioiTinh,
+                                 ngaySinh = _khachHang.NgaySinh,
+                                 soCMND = _khachHang.SoCMND,
+                                 soDT = _khachHang.SoDT,
+                                 email = _khachHang.Email,
+                                 diaChi = _khachHang.DiaChi,
+                                 facebook = _khachHang.Facebook,
+                                 ghiChu = _khachHang.GhiChu,
+                                 tinhTrang = true,
+                                 ngayCapNhat = DateTime.Now
+                             }, commandType: CommandType.StoredProcedure);
+                    result = true;
                 }
-                return result;
+                catch { }
             }
+            return result;
+
         }
     }
 }

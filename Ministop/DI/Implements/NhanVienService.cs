@@ -40,51 +40,36 @@ namespace Ministop.DI.Implements
 
         public bool ThemMoi(NhanVienViewModel _nhanVien, string fileAnh)
         {
-            bool result = false;
-            NhanVien nhanVien = new NhanVien();
-            DangNhap dangNhap = new DangNhap();
-            using (var db = new MinistopDbContext())
+            bool result = false;           
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                using (var trans = db.Database.BeginTransaction())
+                var themMoi = connection.Execute("sp_ThemMoi_NhanVien", new
                 {
-                    try
-                    {
-                        nhanVien.TenNhanVien = _nhanVien.TenNhanVien;
-                        nhanVien.GioiTinh = _nhanVien.GioiTinh;
-                        nhanVien.NgaySinh = _nhanVien.NgaySinh;
-                        nhanVien.SoCMND = _nhanVien.SoCMND;
-                        nhanVien.SoDT = _nhanVien.SoDT;
-                        nhanVien.Email = _nhanVien.Email;
-                        nhanVien.HinhAnh = fileAnh;
-                        nhanVien.DiaChi = _nhanVien.DiaChi;
-                        nhanVien.ChucVu = _nhanVien.ChucVu;
-                        nhanVien.MucLuong = _nhanVien.MucLuong;
-                        nhanVien.NgayThamGia = DateTime.Now;
-                        nhanVien.GhiChu = _nhanVien.GhiChu;
-                        nhanVien.TinhTrang = true;
-
-                        db.NhanViens.Add(nhanVien);
-                        db.SaveChanges();
- 
-                        dangNhap.NhanVienID = nhanVien.ID;
-                        dangNhap.TaiKhoan = _nhanVien.SoDT;
-                        dangNhap.MatKhau = Encryptor.MD5Hash("1");
-                        dangNhap.TinhTrang = true;
-                        dangNhap.PhanQuyenID = 2;
-
-                        db.DangNhaps.Add(dangNhap);
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                }
-                    catch (Exception)
-                {
-                    trans.Rollback();
-                }
+                    tenNV = _nhanVien.TenNhanVien,
+                    gioiTinh = _nhanVien.GioiTinh,
+                    ngaysinh = _nhanVien.NgaySinh,
+                    soCMND = _nhanVien.SoCMND,
+                    soDT = _nhanVien.SoCMND,
+                    ngayThamGia = _nhanVien.NgayThamGia,
+                    email = _nhanVien.Email,
+                    hinhAnh = fileAnh,
+                    diaChi = _nhanVien.DiaChi,
+                    chucVu = _nhanVien.ChucVu,
+                    mucLuong = _nhanVien.GhiChu,
+                    ghiChu = _nhanVien.GhiChu,
+                    tinhTrang = true,
+                    phanQuyenId = 2,
+                    taiKhoan = _nhanVien.SoDT,
+                    matKhau = Encryptor.MD5Hash("1"),
+                    tinhTrang2 = true
+                }, commandType: CommandType.StoredProcedure);
+                result = true;
             }
-            }
+
             return result;
+
         }
+
 
         public bool CapNhat(NhanVienViewModel _nhanVien)
         {
@@ -141,7 +126,7 @@ namespace Ministop.DI.Implements
             using (var db = new MinistopDbContext())
             {
                 var thongtin = db.DangNhaps.Find(id);
-                if(thongtin.MatKhau == Encryptor.MD5Hash(MatKhauCu))
+                if (thongtin.MatKhau == Encryptor.MD5Hash(MatKhauCu))
                 {
                     using (var trans = db.Database.BeginTransaction())
                     {

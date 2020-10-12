@@ -40,33 +40,27 @@ namespace Ministop.DI.Implements
         public bool ThemMoi(NhaCungCapViewModel _nhaCungCap)
         {
             bool result = false;
-            NhaCungCap nhaCungCap = new NhaCungCap();
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                using (var trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var themMoi = connection.Execute("sp_ThemMoi_NhaCungCap", new
                     {
-                        nhaCungCap.TenNCC = _nhaCungCap.TenNCC;
-                        nhaCungCap.SoDT = _nhaCungCap.SoDT.Trim();
-                        nhaCungCap.DiaChi = _nhaCungCap.DiaChi;
-                        nhaCungCap.Email = _nhaCungCap.Email.Trim();
-                        nhaCungCap.CongTy = _nhaCungCap.CongTy;
-                        nhaCungCap.MaSoThue = _nhaCungCap.MaSoThue.Trim();
-                        nhaCungCap.NgayThamGia = DateTime.Now;
-                        nhaCungCap.GhiChu = _nhaCungCap.GhiChu;
-                        nhaCungCap.TinhTrang = true;
-                        db.NhaCungCaps.Add(nhaCungCap);
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                    }
+                        tenNCC = _nhaCungCap.TenNCC,
+                        soDT = _nhaCungCap.SoDT,
+                        diaChi = _nhaCungCap.DiaChi,
+                        email = _nhaCungCap.Email,
+                        congTy = _nhaCungCap.CongTy,
+                        maSoThue = _nhaCungCap.MaSoThue,
+                        ngayThamGia = DateTime.Now,
+                        ghiChu = _nhaCungCap.GhiChu,
+                        tinhTrang = true
+                    }, commandType: CommandType.StoredProcedure);
+                    result = true;
                 }
+                catch { }
             }
+
             return result;
         }
 
@@ -74,31 +68,26 @@ namespace Ministop.DI.Implements
         public bool CapNhat(NhaCungCapViewModel _nhaCungCap)
         {
             bool result = false;
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var nhaCungCap = db.NhaCungCaps.Find(_nhaCungCap.ID);
-                using (var trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var capNhat = connection.Execute("sp_CapNhat_NhaCungCap", new
                     {
-                        nhaCungCap.TenNCC = _nhaCungCap.TenNCC;
-                        nhaCungCap.SoDT = _nhaCungCap.SoDT.Trim();
-                        nhaCungCap.DiaChi = _nhaCungCap.DiaChi;
-                        nhaCungCap.Email = _nhaCungCap.Email.Trim();
-                        nhaCungCap.CongTy = _nhaCungCap.CongTy;
-                        nhaCungCap.MaSoThue = _nhaCungCap.MaSoThue.Trim();
-                        nhaCungCap.GhiChu = _nhaCungCap.GhiChu;
-                        nhaCungCap.NgayCapNhat = DateTime.Now;
-                        nhaCungCap.TinhTrang = true;
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                    }
+                        id = _nhaCungCap.ID,
+                        tenNCC = _nhaCungCap.TenNCC,
+                        soDT = _nhaCungCap.SoDT,
+                        diaChi = _nhaCungCap.DiaChi,
+                        email = _nhaCungCap.Email,
+                        congTy = _nhaCungCap.CongTy,
+                        maSoThue = _nhaCungCap.MaSoThue,
+                        ngayCapNhat = DateTime.Now,
+                        ghiChu = _nhaCungCap.GhiChu,
+                        tinhTrang = true
+                    }, commandType: CommandType.StoredProcedure);
+                    result = true;
                 }
+                catch { }
             }
             return result;
         }
@@ -106,12 +95,9 @@ namespace Ministop.DI.Implements
         public bool Xoa(int id)
         {
             bool result = false;
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var nhaCungCap = db.NhaCungCaps.Find(id);
-                nhaCungCap.TinhTrang = false;
-                nhaCungCap.NgayCapNhat = DateTime.Now;
-                db.SaveChanges();
+                var xoa = connection.Execute("sp_Xoa_NhaCungCap", new { Id = id, ngayCapNhat = DateTime.Now, tinhTrang = false }, commandType: CommandType.StoredProcedure);
                 result = true;
             }
             return result;

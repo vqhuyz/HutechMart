@@ -41,15 +41,20 @@ namespace Ministop.Controllers
         [HttpPost]
         public JsonResult CapNhat(NhaCungCapViewModel _nhaCungCap)
         {
-            var result = nhaCungCap.CapNhat(_nhaCungCap);
+            bool result = nhaCungCap.CapNhat(_nhaCungCap);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpDelete]
-        public JsonResult Xoa(int id)
+        //public JsonResult Xoa(int id)
+        //{
+        //    var result = nhaCungCap.Xoa(id);
+        //    return Json(result, JsonRequestBehavior.AllowGet);
+        //}
+
+        public ActionResult Xoa(int id)
         {
             var result = nhaCungCap.Xoa(id);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return RedirectToAction("Index");
         }
 
     }
