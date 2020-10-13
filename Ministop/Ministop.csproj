@@ -155,9 +155,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\NhaCungCapController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
-    <Compile Include="Controllers\PhieuNhapController.cs" />
     <Compile Include="Controllers\SanPhamController.cs" />
-    <Compile Include="DI\Implements\NhapHangService.cs" />
     <Compile Include="DI\Implements\SanPhamService.cs" />
     <Compile Include="DI\Implements\KhachHangService.cs" />
     <Compile Include="DI\Implements\NhaCungCapService.cs" />
@@ -165,11 +163,11 @@
     <Compile Include="DI\Interfaces\IKhachHangService.cs" />
     <Compile Include="DI\Interfaces\INhaCungCapService.cs" />
     <Compile Include="DI\Interfaces\INhanVienService.cs" />
-    <Compile Include="DI\Interfaces\INhapHangService.cs" />
     <Compile Include="DI\Interfaces\ISanPhamService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsView\DangNhapViewModel.cs" />
     <Compile Include="ModelsView\DataPoint.cs" />
     <Compile Include="ModelsView\DatHangViewModel.cs" />
     <Compile Include="ModelsView\DoanhSoViewModel.cs" />
@@ -9540,8 +9538,6 @@
     <Content Include="Assets\AdminLTE-2.4.18\README.md" />
     <Content Include="Assets\AdminLTE-2.4.18\yarn.lock" />
     <Content Include="Img\200.gif" />
-    <Content Include="Img\NhanVien\VuQuocHuy.jpg" />
-    <Content Include="Img\NhanVien\Vũ Quốc Huy - SU8.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -9881,7 +9877,6 @@
     <Content Include="Views\SanPham\CapNhat.cshtml" />
     <Content Include="Views\SanPham\LoaiSanPham.cshtml" />
     <Content Include="Views\SanPham\BanHang.cshtml" />
-    <Content Include="Views\PhieuNhap\Index.cshtml" />
     <Content Include="Scripts\kendo\2020.3.915\messages\kendo.messages.zh-TW.min.js.map" />
     <Content Include="Scripts\kendo\2020.3.915\kendo.wizard.min.js.map" />
     <Content Include="Scripts\kendo\2020.3.915\kendo.window.min.js.map" />
@@ -10034,11 +10029,12 @@
     <Content Include="Scripts\kendo\2020.3.915\kendo.angular.min.js.map" />
     <Content Include="Scripts\kendo\2020.3.915\kendo.all.min.js.map" />
     <Content Include="Scripts\kendo\2020.3.915\jquery.min.map" />
-    <Content Include="Views\PhieuNhap\ThemMoi.cshtml" />
     <Content Include="Views\Shared\_SidebarParial.cshtml" />
+    <Content Include="Views\NhanVien\NgungHoatDong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Img\NhanVien\" />
     <Folder Include="Img\SanPham\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>

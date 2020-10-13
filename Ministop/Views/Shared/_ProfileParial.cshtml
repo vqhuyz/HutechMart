@@ -1,24 +1,25 @@
-﻿<ul class="nav navbar-nav">
+﻿@{ var session = (Ministop.ModelsView.DangNhapViewModel)Session["DangNhap"]; }
+<ul class="nav navbar-nav">
     <li class="dropdown user user-menu">
         <!-- Menu Toggle Button -->
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <!-- The user image in the navbar-->
-            <img src="~/Img/NhanVien/@Session["HinhAnh"]" class="user-image">
+            <img src="~/Img/NhanVien/@session.HinhAnh" class="user-image">
             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-            <span class="hidden-xs">@Session["TenNV"]</span>
+            <span class="hidden-xs">@session.TenNhanVien</span>
         </a>
         <ul class="dropdown-menu">
             <!-- The user image in the menu -->
             <li class="user-header">
-                <img src="~/Img/NhanVien/@Session["HinhAnh"]" class="img-circle">
+                <img src="~/Img/NhanVien/@session.HinhAnh" class="img-circle">
                 <p>
-                    <small>@Session["ChucVu"]</small>
-                    @Session["TenNV"]
+                    <small>@session.ChucVu</small>
+                    @session.TenNhanVien
                 </p>
             </li>
             <li class="user-footer">
                 <div class="pull-left">
-                    <a href="@Url.Action("ThongTin","NhanVien", new { id = Session["NhanVien"]})" class="btn btn-default btn-flat">Thông tin</a>
+                    <a href="@Url.Action("ThongTin", "NhanVien", new { id = session.ID })" class="btn btn-default btn-flat">Thông tin</a>
                 </div>
                 <div class="pull-right">
                     <a href="@Url.Action("Logout","Login")" onclick="return confirm('Bạn đang tiến hành đăng xuất khỏi tài khoản');">

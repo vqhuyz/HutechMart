@@ -1,4 +1,4 @@
-﻿@model Ministop.ModelsView.NhanVienViewModel
+﻿    @model Ministop.ModelsView.NhanVienViewModel
 
 @{
     /**/
@@ -17,7 +17,7 @@
                 console.log(data);
                 $.ajax({
                     type: "POST",
-                    url: "/NhanVien/CapNhat",
+                    url: "/NhanVien/CapNhatThongTin",
                     data: data,
                     success: function (result) {
                         if (result) {

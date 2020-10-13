@@ -71,20 +71,25 @@
                             {
                                 if (item.TinhTrang == true)
                                 {
-                                    <tr>
+                                    <tr data-toggle="collapse" data-target="#accordion_@item.ID" class="clickable">
                                         <td><input type="checkbox" /></td>
                                         <td>@item.ID</td>
                                         <td>@item.TenNCC</td>
                                         <td>@item.SoDT</td>
                                         <td>@item.Email</td>
-                                        <td>@item.MaSoThue</td>
-                                        <td>
-                                            <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
-                                                <i class="fa fa-plus">2</i>
-                                            </a>
-                                            <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
-                                                <i class="fa fa-plus">2</i>
-                                            </a>
+                                        <td>@item.MaSoThue</td>                                       
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7">
+                                            <div id="accordion_@item.ID" class="collapse">                                                
+                                                <h1>@item.TenNCC</h1>
+                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
+                                                    <i class="fa fa-plus">Cap nhat</i>
+                                                </a>
+                                                <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
+                                                    <i class="fa fa-plus">Xoa</i>
+                                                </a>
+                                            </div>
                                         </td>
                                     </tr>
                                 }

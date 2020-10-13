@@ -38,69 +38,67 @@ namespace Ministop.DI.Implements
             }
         }
 
-        public bool ThemMoi(NhanVienViewModel _nhanVien, string fileAnh)
+        public bool ThemMoi(NhanVienViewModel _nhanVien)
         {
-            bool result = false;           
+            bool result = true;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var themMoi = connection.Execute("sp_ThemMoi_NhanVien", new
+                try
                 {
-                    tenNV = _nhanVien.TenNhanVien,
-                    gioiTinh = _nhanVien.GioiTinh,
-                    ngaysinh = _nhanVien.NgaySinh,
-                    soCMND = _nhanVien.SoCMND,
-                    soDT = _nhanVien.SoCMND,
-                    ngayThamGia = _nhanVien.NgayThamGia,
-                    email = _nhanVien.Email,
-                    hinhAnh = fileAnh,
-                    diaChi = _nhanVien.DiaChi,
-                    chucVu = _nhanVien.ChucVu,
-                    mucLuong = _nhanVien.GhiChu,
-                    ghiChu = _nhanVien.GhiChu,
-                    tinhTrang = true,
-                    phanQuyenId = 2,
-                    taiKhoan = _nhanVien.SoDT,
-                    matKhau = Encryptor.MD5Hash("1"),
-                    tinhTrang2 = true
-                }, commandType: CommandType.StoredProcedure);
-                result = true;
+                    var themMoi = connection.Execute("sp_ThemMoi_NhanVien", new
+                    {
+                        tenNV = _nhanVien.TenNhanVien,
+                        gioiTinh = _nhanVien.GioiTinh,
+                        ngaysinh = _nhanVien.NgaySinh,
+                        soCMND = _nhanVien.SoCMND,
+                        soDT = _nhanVien.SoCMND,
+                        ngayThamGia = DateTime.Now,
+                        email = _nhanVien.Email,
+                        hinhAnh = _nhanVien.HinhAnh,
+                        diaChi = _nhanVien.DiaChi,
+                        chucVu = _nhanVien.ChucVu,
+                        mucLuong = _nhanVien.GhiChu,
+                        ghiChu = _nhanVien.GhiChu,
+                        matKhau = Encryptor.MD5Hash("1"),
+                    }, commandType: CommandType.StoredProcedure);
+                }
+                catch
+                {
+                    result = false;
+                }
             }
 
             return result;
 
         }
 
-
         public bool CapNhat(NhanVienViewModel _nhanVien)
         {
             bool result = false;
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var nhanVien = db.NhanViens.Find(_nhanVien.ID);
-                using (var trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var capNhat = connection.Execute("sp_CapNhat_NhanVien", new
                     {
-                        nhanVien.TenNhanVien = _nhanVien.TenNhanVien;
-                        nhanVien.GioiTinh = _nhanVien.GioiTinh;
-                        nhanVien.NgaySinh = _nhanVien.NgaySinh;
-                        nhanVien.SoCMND = _nhanVien.SoCMND;
-                        nhanVien.SoDT = _nhanVien.SoDT;
-                        nhanVien.Email = _nhanVien.Email;
-                        nhanVien.DiaChi = _nhanVien.DiaChi;
-                        nhanVien.ChucVu = _nhanVien.ChucVu;
-                        nhanVien.MucLuong = _nhanVien.MucLuong;
-                        nhanVien.NgayCapNhat = DateTime.Now;
-                        nhanVien.GhiChu = _nhanVien.GhiChu;
-                        nhanVien.TinhTrang = true;
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                    }
+                        id = _nhanVien.ID,
+                        tenNV = _nhanVien.TenNhanVien,
+                        gioiTinh = _nhanVien.GioiTinh,
+                        ngaysinh = _nhanVien.NgaySinh,
+                        soCMND = _nhanVien.SoCMND,
+                        soDT = _nhanVien.SoCMND,
+                        ngayCapNhat = DateTime.Now,
+                        email = _nhanVien.Email,
+                        hinhAnh = _nhanVien.HinhAnh,
+                        diaChi = _nhanVien.DiaChi,
+                        chucVu = _nhanVien.ChucVu,
+                        mucLuong = _nhanVien.GhiChu,
+                        ghiChu = _nhanVien.GhiChu,
+                    }, commandType: CommandType.StoredProcedure);
+                }
+                catch
+                {
+                    result = false;
                 }
             }
             return result;
@@ -109,40 +107,77 @@ namespace Ministop.DI.Implements
         public bool Xoa(int id)
         {
             bool result = false;
-            using (var db = new MinistopDbContext())
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var nhanVien = db.NhanViens.Find(id);
-                nhanVien.TinhTrang = false;
-                nhanVien.NgayCapNhat = DateTime.Now;
-                db.SaveChanges();
+                var xoa = connection.Execute("sp_Xoa_NhanVien", new
+                {
+                    Id = id,
+                    ngayCapNhat = DateTime.Now,
+                }, commandType: CommandType.StoredProcedure);
                 result = true;
             }
             return result;
         }
-
         public bool DoiMatKhau(int id, string MatKhauCu, string MatKhauMoi)
         {
             bool result = false;
-            using (var db = new MinistopDbContext())
+            var test1 = Encryptor.MD5Hash(MatKhauCu);
+            var test2 = Encryptor.MD5Hash(MatKhauMoi);
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var thongtin = db.DangNhaps.Find(id);
-                if (thongtin.MatKhau == Encryptor.MD5Hash(MatKhauCu))
+                try
                 {
-                    using (var trans = db.Database.BeginTransaction())
+                    var doiMatKhau = connection.Execute("sp_DoiMatKhau_NhanVien", new
                     {
-                        try
-                        {
-                            thongtin.MatKhau = Encryptor.MD5Hash(MatKhauMoi);
-                            db.SaveChanges();
-                            trans.Commit();
-                            result = true;
-                        }
-                        catch (Exception)
-                        {
-                            trans.Rollback();
-                        }
+                        Id = id,
+                        matKhau = test1,
+                        matKhauMoi = test2,
+                    }, commandType: CommandType.StoredProcedure);
+                    if (doiMatKhau != 0)
+                    {
+                        result = true;
                     }
                 }
+                catch { }
+            }
+            return result;
+        }
+
+        public bool CapNhatThongTin(NhanVienViewModel _nhanVien)
+        {
+            bool result = true;
+            using(var connection = new SqlConnection(ConnectionS.connectionString))
+            {
+                try
+                {
+                    var capNhat = connection.Execute("sp_CapNhat_ThongTin", new
+                    {
+                        id = _nhanVien.ID,
+                        tenNV = _nhanVien.TenNhanVien,
+                        gioiTinh = _nhanVien.GioiTinh,
+                        ngaysinh = _nhanVien.NgaySinh,
+                        soCMND = _nhanVien.SoCMND,
+                        soDT = _nhanVien.SoCMND,
+                        ngayCapNhat = DateTime.Now,
+                        email = _nhanVien.Email,
+                        diaChi = _nhanVien.DiaChi,
+                    }, commandType: CommandType.StoredProcedure);
+                }
+                catch
+                {
+                    result = false;
+                }
+            }
+            return result;
+        }
+
+        public bool KichHoat(int id)
+        {
+            bool result = false;
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
+            {
+                var kichHoat = connection.Execute("sp_KichHoat_NhanVien", new { Id = id }, commandType: CommandType.StoredProcedure);
+                result = true;
             }
             return result;
         }

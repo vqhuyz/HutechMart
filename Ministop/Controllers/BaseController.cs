@@ -12,7 +12,7 @@ namespace Ministop.Controllers
         // GET: Base
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            var sess = Session["NhanVien"];
+            var sess = Session["DangNhap"];
             if (sess == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "Index" }));

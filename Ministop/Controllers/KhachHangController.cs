@@ -54,7 +54,7 @@ namespace Ministop.Controllers
         
         public ActionResult Xoa(int id)
         {
-            bool result = khachHang.Xoa(id);
+            khachHang.Xoa(id);
             return RedirectToAction("Index");
         }
     }

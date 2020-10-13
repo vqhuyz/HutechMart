@@ -1,27 +1,7 @@
 ﻿@model Ministop.ModelsView.SanPhamViewModel
 
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#btnCreate").click(function (e) {
-                e.preventDefault();
-                var TenLoai = ("#TenLoai").val();
-                var obj = {
-                    TenLoai: TenLoai
-                }
-                console.log(TenLoai);
-                console.log(obj);
-                $.ajax({
-                    type: "POST",
-                    url: "/SanPham/LoaiSanPham",
-                    data: obj,
-                    success: function (result) {
-                        alert("ok");
-                    }
-                })
-            })
-        })
-    </script>
+
 }
 @using (Html.BeginForm("ThemMoi", "SanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -53,23 +33,7 @@
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.LoaiSanPhamID, htmlAttributes: new { @class = "control-label col-md-4" })
                                                     <div class="col-md-6">
-                                                        @Html.DropDownList("LoaiSanPhamID", null, "-- Chọn loại sản phẩm --", htmlAttributes: new { @class = "form-control", required = "required" })
-                                                        <a class="btn btn-success" data-toggle="modal" data-target="#loaiSP">Thêm loại sản phẩm</a>
-                                                        <div class="modal fade" id="loaiSP" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h4 class="modal-title">Loại sản phẩm mới</h4>
-                                                                    </div><div class="container"></div>
-                                                                    <div class="modal-body">
-                                                                        <input class="form-control" id="TenLoai" name="TenLoai" type="text" />
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-primary" id="btnCreate">Lưu</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        @Html.DropDownList("LoaiSanPhamID", null, "-- Chọn loại sản phẩm --", htmlAttributes: new { @class = "form-control", required = "required" })                                                        
                                                     </div>
                                                 </div>
 

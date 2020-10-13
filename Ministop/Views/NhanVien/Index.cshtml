@@ -104,20 +104,25 @@
                                         <td>@item.SoDT</td>
                                         <td>@item.Email</td>
                                         <td>@item.ChucVu</td>
-                                        <td>
-                                            <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
-                                                <i class="fa fa-plus">2</i>
-                                            </a>
-                                            <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
-                                                <i class="fa fa-plus">2</i>
-                                            </a>
-                                        </td>
+
                                     </tr>
                                     <tr>
                                         <td colspan="7">
                                             <div id="accordion_@item.ID" class="collapse">
                                                 <img src="~/Img/NhanVien/@item.HinhAnh" width="150" height="150" />
                                                 <h5>@item.TenNhanVien</h5>
+                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#themMoi" data-backdrop="false">
+                                                    <i class="fa fa-plus">2</i>
+                                                </a>
+                                                <div class="modal fade" id="themMoi-@item.ID" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
+                                                    <i class="fa fa-plus">2</i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

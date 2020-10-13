@@ -38,7 +38,7 @@ namespace Ministop.DI.Implements
 
         public bool ThemMoi(KhachHangViewModel _khachHang)
         {
-            bool result = false;
+            bool result = true;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
                 try
@@ -55,12 +55,13 @@ namespace Ministop.DI.Implements
                                       diaChi = _khachHang.DiaChi,
                                       facebook = _khachHang.Facebook,
                                       ghiChu = _khachHang.GhiChu,
-                                      tinhTrang = true,
                                       ngayThamGia = DateTime.Now
                                   }, commandType: CommandType.StoredProcedure);
-                    result = true;
                 }
-                catch { }
+                catch
+                {
+                    result = false;
+                }
             }
             return result;
         }
@@ -71,7 +72,7 @@ namespace Ministop.DI.Implements
             bool result = false;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var Xoa = connection.Execute("sp_Xoa_KhachHang", new { Id = id, tinhTrang = false, ngayCapNhat = DateTime.Now }, commandType: CommandType.StoredProcedure);
+                var Xoa = connection.Execute("sp_Xoa_KhachHang", new { Id = id, ngayCapNhat = DateTime.Now }, commandType: CommandType.StoredProcedure);
                 result = true;
             }
             return result;
@@ -79,7 +80,7 @@ namespace Ministop.DI.Implements
 
         public bool CapNhat(KhachHangViewModel _khachHang)
         {
-            bool result = false;
+            bool result = true;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
                 try
@@ -97,12 +98,13 @@ namespace Ministop.DI.Implements
                                  diaChi = _khachHang.DiaChi,
                                  facebook = _khachHang.Facebook,
                                  ghiChu = _khachHang.GhiChu,
-                                 tinhTrang = true,
                                  ngayCapNhat = DateTime.Now
                              }, commandType: CommandType.StoredProcedure);
-                    result = true;
                 }
-                catch { }
+                catch
+                {
+                    result = false;
+                }
             }
             return result;
 

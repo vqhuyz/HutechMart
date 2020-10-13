@@ -53,7 +53,7 @@ namespace Ministop.Controllers
 
         public ActionResult Xoa(int id)
         {
-            var result = nhaCungCap.Xoa(id);
+            nhaCungCap.Xoa(id);
             return RedirectToAction("Index");
         }
 

@@ -19,9 +19,9 @@ namespace Ministop.DI.Implements
         {
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                if(!string.IsNullOrEmpty(search))
+                if (!string.IsNullOrEmpty(search))
                 {
-                    var sanPham =  connection.Query<SanPhamViewModel>("sp_Search_SanPham",new { tenSanPham = search, thuongHieu = search }, commandType: CommandType.StoredProcedure);
+                    var sanPham = connection.Query<SanPhamViewModel>("sp_Search_SanPham", new { tenSanPham = search, thuongHieu = search }, commandType: CommandType.StoredProcedure);
                     return sanPham.ToPagedList(page, pagesize);
 
                 }
@@ -45,35 +45,29 @@ namespace Ministop.DI.Implements
             }
         }
 
-        public bool ThemMoi(SanPhamViewModel _sanPham, string fileAnh)
+        public bool ThemMoi(SanPhamViewModel _sanPham)
         {
-            bool result = false;
-            SanPham sanPham = new SanPham();
-            using (var db = new MinistopDbContext())
+            bool result = true;
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                using(var trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var themMoi = connection.Execute("sp_ThemMoi_SanPham", new
                     {
-                        sanPham.TenSanPham = _sanPham.TenSanPham;
-                        sanPham.LoaiSanPhamID = _sanPham.LoaiSanPhamID;
-                        sanPham.ThuongHieu = _sanPham.ThuongHieu;
-                        sanPham.HinhAnh = fileAnh;
-                        sanPham.GiaBan = _sanPham.GiaBan;
-                        sanPham.GiaNhap = _sanPham.GiaNhap;
-                        sanPham.SoLuong = _sanPham.SoLuong;
-                        sanPham.NgayThem = DateTime.Now;
-                        sanPham.GhiChu = _sanPham.GhiChu;
-                        sanPham.TinhTrang = true;
-                        db.SanPhams.Add(sanPham);
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                    }
+                        loaiSanPhamID = _sanPham.LoaiSanPhamID,
+                        tenSanPham = _sanPham.TenSanPham,
+                        thuongHieu = _sanPham.ThuongHieu,
+                        hinhAnh = _sanPham.HinhAnh,
+                        giaBan = _sanPham.GiaBan,
+                        giaNhap = _sanPham.GiaNhap,
+                        soLuong = _sanPham.SoLuong,
+                        ngayThem = DateTime.Now,
+                        ghiChu = _sanPham.GhiChu,
+                    }, commandType: CommandType.StoredProcedure);
+                }
+                catch
+                {
+                    result = false;
                 }
             }
             return result;
@@ -81,72 +75,47 @@ namespace Ministop.DI.Implements
 
         public bool CapNhat(SanPhamViewModel _sanPham)
         {
-            bool result = false;
-            using (var db = new MinistopDbContext())
+            bool result = true;
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var sanPham = db.SanPhams.Find(_sanPham.ID);
-                using (var trans = db.Database.BeginTransaction())
+                try
                 {
-                    try
+                    var capNhat = connection.Execute("sp_CapNhat_SanPham", new
                     {
-                        sanPham.TenSanPham = _sanPham.TenSanPham;
-                        sanPham.LoaiSanPhamID = _sanPham.LoaiSanPhamID;
-                        sanPham.ThuongHieu = _sanPham.ThuongHieu;
-                        sanPham.GiaBan = _sanPham.GiaBan;
-                        sanPham.GiaNhap = _sanPham.GiaNhap;
-                        sanPham.SoLuong = _sanPham.SoLuong;
-                        sanPham.NgayCapNhat = DateTime.Now;
-                        sanPham.GhiChu = _sanPham.GhiChu;
-                        sanPham.TinhTrang = true;
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }
-                    catch (Exception)
-                    {
-                        trans.Rollback();
-                    }
+                        id = _sanPham.ID,
+                        loaiSanPhamID = _sanPham.LoaiSanPhamID,
+                        tenSanPham = _sanPham.TenSanPham,
+                        thuongHieu = _sanPham.ThuongHieu,
+                        hinhAnh = _sanPham.HinhAnh,
+                        giaBan = _sanPham.GiaBan,
+                        giaNhap = _sanPham.GiaNhap,
+                        soLuong = _sanPham.SoLuong,
+                        ngayCapNhat = DateTime.Now,
+                        ghiChu = _sanPham.GhiChu,
+                    }, commandType: CommandType.StoredProcedure);
                 }
-                return result;
+                catch
+                {
+                    result = false;
+                }
             }
+            return result;
         }
 
         public bool Xoa(int id)
         {
             bool result = false;
-            using (var db = new MinistopDbContext())
+            using(var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var sanPham = db.SanPhams.Find(id);
-                sanPham.TinhTrang = false;
-                sanPham.NgayCapNhat = DateTime.Now;
-                db.SaveChanges();
+                var xoa = connection.Execute("sp_Xoa_SanPham", new { Id = id, ngayCapNhat = DateTime.Now }, commandType: CommandType.StoredProcedure);
                 result = true;
             }
             return result;
         }
 
-        public bool LoaiSanPham(LoaiSanPhamViewModel _loaiSP)
+        public bool LoaiSanPham(LoaiSanPhamViewModel loaiSP)
         {
-            bool result = false;
-            LoaiSanPham loaiSP = new LoaiSanPham();
-            using (var db = new MinistopDbContext())
-            {
-                using (var trans = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        loaiSP.TenLoai = _loaiSP.TenLoai;
-                        db.LoaiSanPhams.Add(loaiSP);
-                        db.SaveChanges();
-                        trans.Commit();
-                        result = true;
-                    }catch(Exception)
-                    {
-                        trans.Rollback();                      
-                    }
-                }
-            }
-            return result;
+            throw new NotImplementedException();
         }
     }
 }

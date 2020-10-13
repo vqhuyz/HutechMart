@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Ministop.Common;
 using Ministop.Models;
+using Ministop.ModelsView;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,14 +26,15 @@ namespace Ministop.Controllers
             matKhau = Encryptor.MD5Hash(matKhau);
             using (var db = new SqlConnection(ConnectionS.connectionString))
             {
-                var dangNhap = db.QueryFirstOrDefault("sp_Login", new { taiKhoan, matKhau }, commandType: CommandType.StoredProcedure);
+                var dangNhap = db.QueryFirstOrDefault<DangNhapViewModel>("sp_Login", new { taiKhoan, matKhau }, commandType: CommandType.StoredProcedure);
                 if (dangNhap != null)
                 {
-                    Session["NhanVien"] = dangNhap.ID;
-                    Session["TenNV"] = dangNhap.TenNhanVien;
-                    Session["ChucVu"] = dangNhap.ChucVu;
-                    Session["HinhAnh"] = dangNhap.HinhAnh;
-                    Session["QuyenHan"] = dangNhap.PhanQuyenID;
+                    Session["DangNhap"] = dangNhap;
+                    //Session["NhanVien"] = dangNhap.ID;
+                    //Session["TenNV"] = dangNhap.TenNhanVien;
+                    //Session["ChucVu"] = dangNhap.ChucVu;
+                    //Session["HinhAnh"] = dangNhap.HinhAnh;
+                    //Session["QuyenHan"] = dangNhap.PhanQuyenID;
 
                     return Json("OK",JsonRequestBehavior.AllowGet);
                 }

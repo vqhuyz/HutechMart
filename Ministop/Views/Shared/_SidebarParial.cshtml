@@ -1,19 +1,5 @@
-﻿
+﻿@{ var session = (Ministop.ModelsView.DangNhapViewModel)Session["DangNhap"]; }
 <section class="sidebar">
-
-    <!-- Sidebar user panel (optional) -->
-
-    <div class="user-panel">
-        <div class="pull-left image">
-            <img width="75" height="75" src="~/Img/NhanVien/@Session["HinhAnh"]" class="img-circle" alt="@Session["TenNV"]">
-        </div>
-        <div class="pull-left info">
-            <p>@Session["TenNV"]</p>
-            <a href="@Url.Action("Index","Home")"><i class="fa fa-circle text-success"></i> @Session["ChucVu"]</a>
-        </div>
-    </div>
-
-
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu" data-widget="tree">
         <li class="header">NHÂN VIÊN</li>
@@ -44,31 +30,40 @@
                 <i class="fa fa-users"></i> <span>Khách Hàng</span>
             </a>
         </li>
+        @if (session.PhanQuyenID == 1)
+        {
         <li class="header">QUẢN LÝ</li>
-        <li id="customers">
-            <a href="@Url.Action("Index","NhanVien")">
-                <i class="fa fa-user"></i> <span>Nhân Viên</span>
-            </a>
-        </li>
-        <li>
-            <a href="@Url.Action("Index","NhaCungCap")">
-                <i class="fa fa-user-secret"></i> <span>Nhà Cung Cấp</span>
-            </a>
-        </li>
-        <li id="products">
-            <a href="@Url.Action("Index","SanPham")">
-                <i class="fa fa-shopping-basket"></i>
-                <span>Sản Phẩm</span>
-            </a>
-        </li>
-        <li>
-            <a href="####">
-                <i class="fa fa-cubes"></i> <span>#####</span>
-            </a>
-        </li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-user"></i> <span>Nhân viên</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index","NhanVien")"> Đang hoạt động</a></li>
+                        <li><a href="@Url.Action("NgungHoatDong","NhanVien")"> Ngưng hoạt động</a></li>
+                    </ul>
+         </li>
+         <li>
+             <a href="@Url.Action("Index","NhaCungCap")">
+                  <i class="fa fa-user-secret"></i> <span>Nhà Cung Cấp</span>
+             </a>
+         </li>
+         <li id="products">
+             <a href="@Url.Action("Index","SanPham")">
+                  <i class="fa fa-shopping-basket"></i><span>Sản Phẩm</span>   
+             </a>
+         </li>
+         <li>
+             <a href="####">
+                  <i class="fa fa-cubes"></i> <span>#####</span>
+             </a>
+         </li>
+}
         <li class="header">QUẢN LÝ CÁ NHÂN</li>
         <li>
-            <a href="@Url.Action("ThongTin","NhanVien", new { id = Session["NhanVien"]})">
+            <a href="@Url.Action("ThongTin","NhanVien", new { id = session.ID})">
                 <i class="fa fa-user"></i> <span>Hồ Sơ Cá Nhân</span>
             </a>
         </li>

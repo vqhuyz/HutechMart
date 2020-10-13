@@ -39,7 +39,7 @@ namespace Ministop.DI.Implements
 
         public bool ThemMoi(NhaCungCapViewModel _nhaCungCap)
         {
-            bool result = false;
+            bool result = true;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
                 try
@@ -54,11 +54,12 @@ namespace Ministop.DI.Implements
                         maSoThue = _nhaCungCap.MaSoThue,
                         ngayThamGia = DateTime.Now,
                         ghiChu = _nhaCungCap.GhiChu,
-                        tinhTrang = true
                     }, commandType: CommandType.StoredProcedure);
-                    result = true;
                 }
-                catch { }
+                catch
+                {
+                    result = false;
+                }
             }
 
             return result;
@@ -67,7 +68,7 @@ namespace Ministop.DI.Implements
 
         public bool CapNhat(NhaCungCapViewModel _nhaCungCap)
         {
-            bool result = false;
+            bool result = true;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
                 try
@@ -83,11 +84,12 @@ namespace Ministop.DI.Implements
                         maSoThue = _nhaCungCap.MaSoThue,
                         ngayCapNhat = DateTime.Now,
                         ghiChu = _nhaCungCap.GhiChu,
-                        tinhTrang = true
                     }, commandType: CommandType.StoredProcedure);
-                    result = true;
                 }
-                catch { }
+                catch
+                {
+                    result = false;
+                }
             }
             return result;
         }
@@ -97,7 +99,7 @@ namespace Ministop.DI.Implements
             bool result = false;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                var xoa = connection.Execute("sp_Xoa_NhaCungCap", new { Id = id, ngayCapNhat = DateTime.Now, tinhTrang = false }, commandType: CommandType.StoredProcedure);
+                var xoa = connection.Execute("sp_Xoa_NhaCungCap", new { Id = id, ngayCapNhat = DateTime.Now}, commandType: CommandType.StoredProcedure);
                 result = true;
             }
             return result;
