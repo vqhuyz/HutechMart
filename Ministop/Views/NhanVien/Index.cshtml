@@ -5,24 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section Scripts{
-    <script>
-        $("#txtSearch").on("keyup", function () {
-            var txtEnter = $(this).val();
-            $("table tr").each(function (results) {
-                if (results != 0) {
-                    var id = $(this).find("td:nth-child(3)").text();
-                    if (id.indexOf(txtEnter) !== 0 && id.toLowerCase().indexOf(txtEnter.toLowerCase()) < 0) {
-                        $(this).hide();
-                    }
-                    else {
-                        $(this).show();
-                    }
-                }
-            })
-        })
-    </script>
-    }
 
 <section class="details mainLeft">
     <div>
@@ -65,7 +47,6 @@
             {
                 <input type="text" name="search" placeholder="Theo tên, số điện thoại" />
             }
-            <input type="text" id="txtSearch" name="search1" placeholder="test input search jquery theo tên" />
             <aside class="header-filter-buttons">
                 <a href="@Url.Action("ThemMoi")" class="btn btn-success" data-toggle="modal" data-target="#themMoi" data-backdrop="false">
                     <i class="fa fa-plus">Thêm mới</i>
@@ -112,7 +93,7 @@
                                                 <img src="~/Img/NhanVien/@item.HinhAnh" width="150" height="150" />
                                                 <h5>@item.TenNhanVien</h5>
                                                 <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#themMoi" data-backdrop="false">
-                                                    <i class="fa fa-plus">2</i>
+                                                    <i class="fa fa-plus">Cập nhật</i>
                                                 </a>
                                                 <div class="modal fade" id="themMoi-@item.ID" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
@@ -121,7 +102,7 @@
                                                     </div>
                                                 </div>
                                                 <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
-                                                    <i class="fa fa-plus">2</i>
+                                                    <i class="fa fa-plus">Ngừng hoạt động</i>
                                                 </a>
                                             </div>
                                         </td>

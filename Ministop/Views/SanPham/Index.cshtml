@@ -85,14 +85,20 @@
                                     </tr>
                                     <tr>
                                         <td colspan="7">
-                                            <div id="accordion_@item.ID" class="collapse">                                                
+                                            <div id="accordion_@item.ID" class="collapse">
                                                 <h1>@item.TenSanPham</h1>
                                                 <img src="~/Img/SanPham/@item.HinhAnh" width="150" />
-                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
-                                                    <i class="fa fa-plus">Cap nhat</i>
+                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success"  data-toggle="modal" data-target="#capNhat-@item.ID" data-backdrop="false">
+                                                    <i class="fa fa-plus">Cập nhật</i>
                                                 </a>
+                                                <div class="modal fade" id="capNhat-@item.ID" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
-                                                    <i class="fa fa-plus">Xoa</i>
+                                                    <i class="fa fa-plus">Ngừng kinh doanh</i>
                                                 </a>
                                             </div>
                                         </td>

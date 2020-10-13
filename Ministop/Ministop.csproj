@@ -10031,6 +10031,7 @@
     <Content Include="Scripts\kendo\2020.3.915\jquery.min.map" />
     <Content Include="Views\Shared\_SidebarParial.cshtml" />
     <Content Include="Views\NhanVien\NgungHoatDong.cshtml" />
+    <Content Include="Views\NhaCungCap\NgungHoatDong.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

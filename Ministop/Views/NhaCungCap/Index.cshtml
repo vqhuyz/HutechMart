@@ -49,7 +49,7 @@
             }
             <aside class="header-filter-buttons">
                 <a href="@Url.Action("ThemMoi")" class="btn btn-success">
-                    <i class="fa fa-plus">1</i>
+                    <i class="fa fa-plus">Thêm mới</i>
                 </a>
             </aside>
             <div class="box">
@@ -84,10 +84,10 @@
                                             <div id="accordion_@item.ID" class="collapse">                                                
                                                 <h1>@item.TenNCC</h1>
                                                 <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
-                                                    <i class="fa fa-plus">Cap nhat</i>
+                                                    <i class="fa fa-plus">Cập nhật</i>
                                                 </a>
                                                 <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
-                                                    <i class="fa fa-plus">Xoa</i>
+                                                    <i class="fa fa-plus">Ngừng hoạt động</i>
                                                 </a>
                                             </div>
                                         </td>

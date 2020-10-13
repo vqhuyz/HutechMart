@@ -21,6 +21,17 @@ namespace Ministop.Controllers
             return View(nhaCungCap.GetAll(search, page, pagesize));
         }
 
+        public ActionResult NgungHoatDong(string search, int page = 1, int pagesize = 10)
+        {
+            return View(nhaCungCap.GetAll(search, page, pagesize));
+        }
+
+        public ActionResult KichHoat(int id)
+        {
+            nhaCungCap.KichHoat(id);
+            return RedirectToAction("NgungHoatDong");
+        }
+
         public ActionResult ThemMoi()
         {
             return View();

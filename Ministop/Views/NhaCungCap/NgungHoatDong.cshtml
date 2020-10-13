@@ -1,17 +1,18 @@
-﻿@model PagedList.IPagedList<Ministop.ModelsView.NhanVienViewModel>
+﻿@model PagedList.IPagedList<Ministop.ModelsView.NhaCungCapViewModel>
 @using PagedList.Mvc
-@{ ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <!-- Main content -->
 <section class="content mainRight">
     <div>
         <div class="col-xs-9">
-            @using (Html.BeginForm("NgungHoatDong", "NhanVien", FormMethod.Get))
+            @using (Html.BeginForm("NgungHoatDong", "NhaCungCap", FormMethod.Get))
             {
-            <input type="text" name="search" placeholder="Theo tên, số điện thoại" />
+                <input type="text" name="search" placeholder="Theo tên, số điện thoại" />
             }
-            <!-- Modal -->
             <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -20,10 +21,10 @@
                             <tr>
                                 <th><input type="checkbox" /></th>
                                 <th>ID</th>
-                                <th>Tên nhân viên</th>
+                                <th>Tên nhà cung cấp</th>
                                 <th>Số điện thoại</th>
                                 <th>Email</th>
-                                <th>Chức vụ</th>
+                                <th>Mã số thuế</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,16 +35,16 @@
                                     <tr data-toggle="collapse" data-target="#accordion_@item.ID" class="clickable">
                                         <td><input type="checkbox" /></td>
                                         <td>@item.ID</td>
-                                        <td>@item.TenNhanVien</td>
+                                        <td>@item.TenNCC</td>
                                         <td>@item.SoDT</td>
                                         <td>@item.Email</td>
-                                        <td>@item.ChucVu</td>
+                                        <td>@item.MaSoThue</td>
                                         <td>
                                             <a href="@Url.Action("KichHoat", new { id = item.ID })">Kích hoạt</a>
                                         </td>
-                                    </tr>                                 
+                                    </tr>
                                 }
-                              }
+                            }
                         </tbody>
                     </table>
                     @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.Search }))
@@ -52,4 +53,3 @@
         </div>
     </div>
 </section>
-

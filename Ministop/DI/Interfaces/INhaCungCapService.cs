@@ -14,5 +14,6 @@ namespace Ministop.DI.Interfaces
         bool ThemMoi(NhaCungCapViewModel nhaCungCap);
         bool CapNhat(NhaCungCapViewModel nhaCungCap);
         bool Xoa(int id);
+        bool KichHoat(int id);
     }
 }

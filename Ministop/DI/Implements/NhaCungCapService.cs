@@ -104,5 +104,16 @@ namespace Ministop.DI.Implements
             }
             return result;
         }
+
+        public bool KichHoat(int id)
+        {
+            bool result = false;
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
+            {
+                var kichHoat = connection.Execute("sp_KichHoat_NhaCungCap", new { Id = id }, commandType: CommandType.StoredProcedure);
+                result = true;
+            }
+            return result;
+        }
     }
 }
