@@ -3,11 +3,6 @@
 
 @section Scripts{
     <script>
-            $("#thang").change(function () {
-                var thang = $("#thang option:selected").val();
-                console.log(thang);
-            })
-
         window.onload = function () {
 
 
@@ -43,14 +38,14 @@
                      }
                  },
                  xAxis: {
-                     categories: categories
+                      categories: categories 
                  },
                  series: [{
                      name: 'Doanh so ngay theo thang',
                      data: series
                  }, {
                          name: 'Doanh so ngay theo tuan',
-                         data: series2
+                         data: [1,2,3,4,5,6]
                      }]
              }
          Highcharts.chart('container', json);
@@ -66,12 +61,6 @@
 
 <div class="col-lg-12">
     <div class="col-lg-6">
-        <select id="thang" name="thang">
-            @for (int i = 1; i <= 12; i++)
-            {
-                <option value="@i">Tháng @i</option>
-            }
-        </select>
         <div id="container"></div>
     </div>
 </div>

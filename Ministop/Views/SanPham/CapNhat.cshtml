@@ -1,23 +1,23 @@
 ﻿@model Ministop.ModelsView.SanPhamViewModel
 
-@using (Html.BeginForm("CapNhat", "SanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="modal-header">
-        <h3 class="modal-title">Cập nhật sản phẩm</h3>
-        <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.ID)
-    <div class="modal-body form-horizontal">
+<div class="modal-header">
+    <h3 class="modal-title">Cập nhật sản phẩm</h3>
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body form-horizontal">
+    <form id="formUpdate">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.ID)
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="form-group">
                         @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            <input type="file" name="HinhAnh"/>
+                            <input type="file" name="HinhAnh" />
                         </div>
                     </div>
 
@@ -76,11 +76,35 @@
                 </div>
             </div>
         </div>
+    </form>
+</div>
 
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-        <button type="submit" class="btn btn-primary">Lưu</button>
-    </div>
-}
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+    <button type="submit" id="btnUpdate" class="btn btn-primary">Lưu</button>
+</div>
+
+<script>$(document).ready(function () {
+        $("#btnUpdate").click(function (e) {
+            var formData = new FormData($("#formUpdate")[0]);
+            $.ajax({
+                type: 'POST',
+                url: "/SanPham/CapNhat",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result) {
+                        alert("Thay đổi thành công");
+                        location.reload();
+                    }
+                    else {
+                        alert("Có lỗi xảy ra!!");
+                    }
+                }
+            })
+        })
+    })</script>
+
+
 

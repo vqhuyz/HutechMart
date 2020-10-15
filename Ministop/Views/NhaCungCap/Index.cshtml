@@ -48,10 +48,16 @@
                 <input type="text" name="search" placeholder="Theo tên, số điện thoại" />
             }
             <aside class="header-filter-buttons">
-                <a href="@Url.Action("ThemMoi")" class="btn btn-success">
+                <a href="@Url.Action("ThemMoi")" class="btn btn-success"  data-toggle="modal" data-target="#themMoi" data-backdrop="false">
                     <i class="fa fa-plus">Thêm mới</i>
                 </a>
             </aside>
+            <div class="modal fade" id="themMoi" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                    </div>
+                </div>
+            </div>
             <div class="box">
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -81,11 +87,17 @@
                                     </tr>
                                     <tr>
                                         <td colspan="7">
-                                            <div id="accordion_@item.ID" class="collapse">                                                
+                                            <div id="accordion_@item.ID" class="collapse">
                                                 <h1>@item.TenNCC</h1>
-                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success">
+                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#capNhat-@item.ID" data-backdrop="false">
                                                     <i class="fa fa-plus">Cập nhật</i>
                                                 </a>
+                                                <div class="modal fade" id="capNhat-@item.ID" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
                                                     <i class="fa fa-plus">Ngừng hoạt động</i>
                                                 </a>

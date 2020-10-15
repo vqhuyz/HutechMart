@@ -1,58 +1,30 @@
 ﻿@model Ministop.ModelsView.NhanVienViewModel
 
-@section Scripts{
-    <script>
+<div class="modal-header bg-olive">
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Thêm nhân viên mới</h4>
+</div>
 
-            //$(document).ready(function () {
-            //    $("#btncreate").click(function (e) {
-            //        e.preventdefault();
-            //        var data = $("#formcreate").serialize();
-            //        console.log(data);
-            //        $.ajax({
-            //            type: "post",
-            //            url: "/nhanvien/themmoi",
-            //            data: data,
-            //            success: function (result) {
-            //                if (result) {
-            //                    alert("thêm mới thành công");
-            //                }
-            //                else {
-            //                    alert("số điện thoại hoặc email hoặc số chứng minh đã tồn tại!!");
-            //                }
-            //            }
-            //        })
-            //    })
-            //})
-        </script>  
-}
-
-@using (Html.BeginForm("ThemMoi", "NhanVien", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="modal-header bg-olive">
-        <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Thêm nhân viên mới</h4>
-    </div>
-
-    <div class="modal-body form-horizontal">
-
+<div class="modal-body form-horizontal">
+    <form id="formCreate">
         @Html.AntiForgeryToken()
-
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
                     <div class="form-group">
                         @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            <input type="file" name="HinhAnh" required />
+                            <input type="file" name="HinhAnh" id="HinhAnh" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.TenNhanVien, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(model => model.TenNhanVien, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(model => model.TenNhanVien, new { @class = "form-control" })
                         </div>
                     </div>
 
@@ -60,7 +32,7 @@
                         @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
                             <label class="radio-inline">
-                                @Html.RadioButtonFor(model => model.GioiTinh, "Nam", new { required = "required" })
+                                @Html.RadioButtonFor(model => model.GioiTinh, "Nam")
                                 Nam
                             </label>
                             <label class="radio-inline">
@@ -78,7 +50,7 @@
                         @Html.LabelFor(model => model.NgaySinh, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
                             <div class=" input-group date">
-                                @Html.TextBoxFor(model => model.NgaySinh, new { @class = "form-control", required = "required" })
+                                @Html.TextBoxFor(model => model.NgaySinh, new { @class = "form-control" })
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -89,28 +61,28 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.SoCMND, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(model => model.SoCMND, new { @class = "form-control", type = "number", required = "required" })
+                            @Html.TextBoxFor(model => model.SoCMND, new { @class = "form-control" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.SoDT, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(model => model.SoDT, new { @class = "form-control", type = "number", required = "required" })
+                            @Html.TextBoxFor(model => model.SoDT, new { @class = "form-control" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email", required = "required" })
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.DiaChi, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -120,14 +92,14 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.ChucVu, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(model => model.ChucVu, new { @class = "form-control", required = "required" })
+                            @Html.TextBoxFor(model => model.ChucVu, new { @class = "form-control" })
                         </div>
                     </div>
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.MucLuong, htmlAttributes: new { @class = "control-label col-md-4" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(model => model.MucLuong, new { @class = "form-control", @type = "number" })
+                            @Html.TextBoxFor(model => model.MucLuong, new { @class = "form-control" })
                         </div>
                     </div>
 
@@ -140,10 +112,34 @@
                 </div>
             </div>
         </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <div class="col-md-offset-2 col-md-10">
+        <button id="btnCreate" type="submit" class="btn bg-olive btn-lg">Thêm Mới</button>
     </div>
-    <div class="modal-footer">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn bg-olive btn-lg">Thêm Mới</button>
-        </div>
-    </div>
-}
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnCreate").click(function (e) {
+            var formData = new FormData($("#formCreate")[0]);
+            $.ajax({
+                type: 'POST',
+                url: "/NhanVien/SanPham",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result) {
+                        alert("Thêm mới thành công");
+                        location.reload();
+                    }
+                    else {
+                        alert("số điện thoại hoặc email hoặc số chứng minh đã tồn tại!!");
+                    }
+                }
+            })
+        })
+    })
+</script>

@@ -41,11 +41,18 @@ namespace Ministop.Controllers
         }
 
         [HttpPost]
-        public ActionResult ThemMoi(NhanVienViewModel _nhanVien, HttpPostedFileBase HinhAnh)
+        public JsonResult ThemMoi(NhanVienViewModel _nhanVien, HttpPostedFileBase HinhAnh)
         {
-            _nhanVien.HinhAnh = LayHinhAnh(HinhAnh, _nhanVien.TenNhanVien);
-            nhanVien.ThemMoi(_nhanVien);
-            return RedirectToAction("Index");
+            if (HinhAnh == null)
+            {
+                _nhanVien.HinhAnh = "NguoiDung.jpg";               
+            }
+            else
+            {
+                _nhanVien.HinhAnh = LayHinhAnh(HinhAnh, _nhanVien.TenNhanVien);
+            }
+            bool result = nhanVien.ThemMoi(_nhanVien);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CapNhat(int id)
@@ -54,22 +61,21 @@ namespace Ministop.Controllers
         }
 
         [HttpPost]
-        public ActionResult CapNhat(NhanVienViewModel _nhanVien, HttpPostedFileBase HinhAnh)
+        public JsonResult CapNhat(NhanVienViewModel _nhanVien, HttpPostedFileBase HinhAnh)
         {
-            Random rd = new Random();
-            var thayAnh = _nhanVien.TenNhanVien + rd.Next(1, 10);
             if (HinhAnh != null)
             {
+                Random rd = new Random();
+                var thayAnh = _nhanVien.TenNhanVien + rd.Next(1, 10);
                 _nhanVien.HinhAnh = LayHinhAnh(HinhAnh, thayAnh);
-                nhanVien.CapNhat(_nhanVien);
             }
             else
             {
                 var id = nhanVien.GetById(_nhanVien.ID);
                 _nhanVien.HinhAnh = id.HinhAnh;
-                nhanVien.CapNhat(_nhanVien);
             }
-            return RedirectToAction("Index");
+            bool result = nhanVien.CapNhat(_nhanVien);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Xoa(int id)

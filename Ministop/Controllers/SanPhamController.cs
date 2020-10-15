@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Ministop.Controllers
 {
-    public class SanPhamController : Controller
+    public class SanPhamController : BaseController
     {
         ISanPhamService sanPham;
         public SanPhamController(ISanPhamService _sanPham)
@@ -30,11 +30,18 @@ namespace Ministop.Controllers
         }
 
         [HttpPost]
-        public ActionResult ThemMoi(SanPhamViewModel _sanPham, HttpPostedFileBase HinhAnh)
+        public JsonResult ThemMoi(SanPhamViewModel _sanPham, HttpPostedFileBase HinhAnh)
         {
-            _sanPham.HinhAnh = LayHinhAnh(HinhAnh, _sanPham.TenSanPham);
-            sanPham.ThemMoi(_sanPham);
-            return RedirectToAction("Index");
+            if(HinhAnh == null)
+            {
+                _sanPham.HinhAnh = "SanPham.png";
+            }
+            else
+            {
+                _sanPham.HinhAnh = LayHinhAnh(HinhAnh, _sanPham.TenSanPham);
+            }
+            bool result = sanPham.ThemMoi(_sanPham);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CapNhat(int id)
@@ -44,22 +51,21 @@ namespace Ministop.Controllers
         }
 
         [HttpPost]
-        public ActionResult CapNhat(SanPhamViewModel _sanPham, HttpPostedFileBase HinhAnh)
+        public JsonResult CapNhat(SanPhamViewModel _sanPham, HttpPostedFileBase HinhAnh)
         {
-            Random rd = new Random();
-            var thayAnh = _sanPham.TenSanPham + rd.Next(1, 10);
             if(HinhAnh != null)
             {
+                Random rd = new Random();
+                var thayAnh = _sanPham.TenSanPham + rd.Next(1, 10);
                 _sanPham.HinhAnh = LayHinhAnh(HinhAnh, thayAnh);
-                sanPham.CapNhat(_sanPham);
             }         
             else
             {
                 var id  = sanPham.GetById(_sanPham.ID);
                 _sanPham.HinhAnh = id.HinhAnh;
-                sanPham.CapNhat(_sanPham);
             }
-            return RedirectToAction("Index");
+            bool result = sanPham.CapNhat(_sanPham);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Xoa(int id)
@@ -68,22 +74,15 @@ namespace Ministop.Controllers
             return RedirectToAction("Index");
         }
 
-        //public JsonResult Xoa(int id)
-        //{
-        //    bool result = sanPham.Xoa(id);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
-
-
         public ActionResult BanHang(string search, int page = 1, int pagesize = 30)
         {
             return View(sanPham.GetAll(search, page, pagesize));
         }
 
-        public string LayHinhAnh(HttpPostedFileBase HinhAnh, string tenNV)
+        public string LayHinhAnh(HttpPostedFileBase HinhAnh, string tenSP)
         {
             string path = "";
-            string fileName = tenNV + ".jpg";
+            string fileName = tenSP + ".jpg";
             if (HinhAnh != null && HinhAnh.ContentLength > 0)
             {
                 string extension = Path.GetExtension(HinhAnh.FileName);
@@ -94,6 +93,6 @@ namespace Ministop.Controllers
                 }
             }
             return fileName;
-        }
+        }     
     }
 }

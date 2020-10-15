@@ -1,40 +1,15 @@
 ﻿@model Ministop.ModelsView.KhachHangViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#btnUpdate").click(function (e) {
-                e.preventDefault();
+<div class="modal-header bg-olive">
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Thay đổi thông tin</h4>
+</div>
 
-                var data = $("#formUpdate").serialize();
-
-                $.ajax({
-                    type: "POST",
-                    url: "/KhachHang/CapNhat",
-                    data: data,
-                    success: function (result) {
-                        console.log(result);
-                        if (result)
-                            alert('Cập nhật thành công!');
-                        else {
-                            alert('Có lỗi xảy ra');
-                        }
-                    }
-                })
-            })
-        })
-    </script>
-}
-
-@Html.AntiForgeryToken()
-
-<form id="formUpdate">
-    <div class="form-horizontal">
-        <h4>KhachHang</h4>
-        <hr />
+<div class="modal-body form-horizontal">
+    <form id="formUpdate">
+        @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => model.ID)
@@ -109,16 +84,36 @@
                 @Html.ValidationMessageFor(model => model.GhiChu, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Lưu" class="btn btn-default" id="btnUpdate" />
-            </div>
-        </div>
-    </div>
-</form>
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    </form>
 </div>
+
+<div class="modal-footer">
+    <div class="col-md-offset-2 col-md-10">
+        <button id="btnUpdate" type="submit" class="btn bg-olive btn-lg">Cập nhật</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnUpdate").click(function (e) {
+            e.preventDefault();
+            var data = $("#formUpdate").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/KhachHang/CapNhat",
+                data: data,
+                success: function (result) {
+                    console.log(result);
+                    if (result) {
+                        alert('Cập nhật thành công!');
+                        location.reload();
+                    }
+                    else {
+                        alert('Số điện thoại hoặc Email hoặc Số CMND đã tồn tại');
+                    }
+                }
+            })
+        })
+    })
+</script>
+

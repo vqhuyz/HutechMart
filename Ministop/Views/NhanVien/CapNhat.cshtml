@@ -1,150 +1,145 @@
 ﻿@model Ministop.ModelsView.NhanVienViewModel
 
 
-@section Scripts{
-    @*<script>
-            $(document).ready(function () {
-                $("#btnUpdate").click(function (e) {
-                    e.preventDefault();
+<div class="modal-header bg-olive">
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Thay đổi thông tin</h4>
+</div>
 
-                    var data = $("#formUpdate").serialize();
-                    $.ajax({
-                        type: "POST",
-                        url: "/NhanVien/CapNhat",
-                        data: data,
-                        success: function (result) {
-                            if (result) {
-                                alert("Cập nhật thành công");
-                            }
-                            else {
-                                alert("Số điện thoại hoặc Email hoặc Số chứng minh đã tồn tại")
-                            }
-                        }
-                    })
-                })
+<div class="modal-body form-horizontal">
+    <form id="formupdate">
+        @Html.HiddenFor(model=>model.ID)
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            <input type="file" name="HinhAnh" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TenNhanVien, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.TenNhanVien, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(model => model.GioiTinh, "Nam")
+                                Nam
+                            </label>
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(model => model.GioiTinh, "Nữ")
+                                Nữ
+                            </label>
+                            <label class="radio-inline">
+                                @Html.RadioButtonFor(model => model.GioiTinh, "Khác")
+                                Khác
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NgaySinh, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            <div class=" input-group date">
+                                @Html.TextBoxFor(model => model.NgaySinh, new { @class = "form-control" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SoCMND, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.SoCMND, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SoDT, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.SoDT, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DiaChi, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ChucVu, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.ChucVu, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MucLuong, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(model => model.MucLuong, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GhiChu, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-6">
+                            @Html.TextAreaFor(model => model.GhiChu, new { @class = "form-control", rows = "5", cols = "20" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <div class="col-md-offset-2 col-md-10">
+        <button id="btnupdate" type="submit" class="btn bg-olive btn-lg">Cập nhật</button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#btnupdate").click(function (e) {
+            var formData = new FormData($("#formupdate")[0]);
+            $.ajax({
+                type: 'POST',
+                url: "/NhanVien/CapNhat",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result) {
+                        alert("Cập nhật thành công");
+                        location.reload();
+                    }
+                    else {
+                        alert("số điện thoại hoặc email hoặc số chứng minh đã tồn tại!!");
+                    }
+                }
             })
-        </script>*@
-}
-
-@using (Html.BeginForm("CapNhat", "NhanVien", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-                <div class="modal-header bg-olive">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">Thêm nhân viên mới</h4>
-                </div>
-
-                <div class="modal-body form-horizontal">
-
-                    @Html.AntiForgeryToken()
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.HinhAnh, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        <input type="file" name="HinhAnh" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TenNhanVien, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.TenNhanVien, new { @class = "form-control" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.GioiTinh, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        <label class="radio-inline">
-                                            @Html.RadioButtonFor(model => model.GioiTinh, "Nam")
-                                            Nam
-                                        </label>
-                                        <label class="radio-inline">
-                                            @Html.RadioButtonFor(model => model.GioiTinh, "Nữ")
-                                            Nữ
-                                        </label>
-                                        <label class="radio-inline">
-                                            @Html.RadioButtonFor(model => model.GioiTinh, "Khác")
-                                            Khác
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.NgaySinh, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        <div class=" input-group date">
-                                            @Html.TextBoxFor(model => model.NgaySinh, new { @class = "form-control" })
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SoCMND, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.SoCMND, new { @class = "form-control", type = "number" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.SoDT, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.SoDT, new { @class = "form-control", type = "number" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", type = "email" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.DiaChi, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.ChucVu, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.ChucVu, new { @class = "form-control" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.MucLuong, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.MucLuong, new { @class = "form-control", type = "number" })
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.GhiChu, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextAreaFor(model => model.GhiChu, new { @class = "form-control", rows = "5", cols = "20" })
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                 <div class="modal-footer">
-                    <div class="col-md-offset-2 col-md-10">
-                          <button type="submit" class="btn bg-olive btn-lg">Cập nhật</button>
-                    </div>
-                  </div>
-}
+        })
+    })
+</script>

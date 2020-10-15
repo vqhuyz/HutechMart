@@ -74,7 +74,7 @@ namespace Ministop.DI.Implements
 
         public bool CapNhat(NhanVienViewModel _nhanVien)
         {
-            bool result = false;
+            bool result = true;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
                 try

@@ -92,10 +92,10 @@
                                             <div id="accordion_@item.ID" class="collapse">
                                                 <img src="~/Img/NhanVien/@item.HinhAnh" width="150" height="150" />
                                                 <h5>@item.TenNhanVien</h5>
-                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#themMoi" data-backdrop="false">
+                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#capNhat-@item.ID" data-backdrop="false">
                                                     <i class="fa fa-plus">Cập nhật</i>
                                                 </a>
-                                                <div class="modal fade" id="themMoi-@item.ID" aria-hidden="true">
+                                                <div class="modal fade" id="capNhat-@item.ID" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
                                                         </div>

@@ -1,41 +1,16 @@
 ﻿@model Ministop.ModelsView.NhaCungCapViewModel
 
-@{
-    ViewBag.Title = "ThemMoi";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<div class="modal-header bg-olive">
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Thêm nhà cung cấp</h4>
+</div>
 
-@section Scripts{
-    <script>
-        $(document).ready(function () {
-            $("#btnCreate").click(function (e) {
-                e.preventDefault();
-                var data = $("#formCreate").serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "/NhaCungCap/ThemMoi",
-                    data: data,
-                    success: function (result) {
-                        if (result) {
-                            alert("Thêm mới thành công");
-                        }
-                        else {
-                            alert("Số điện thoại hoặc Email hoặc Mã số thuế đã tồn tại!!");
-                        }
-                    }
-                })
-            })
-        })
-    </script>
-}
 
-<h2>ThemMoi</h2>
-
-@Html.AntiForgeryToken()
-<form id="formCreate">
-    <div class="form-horizontal">
-        <h4>NhaCungCapViewModel</h4>
-        <hr />
+<div class="modal-body form-horizontal">
+    <form id="formCreate">
+        @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.TenNCC, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -93,13 +68,33 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" id="btnCreate" />
-            </div>
-        </div>
-    </div>
-</form>
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    </form>
 </div>
+
+<div class="modal-footer">
+    <div class="col-md-offset-2 col-md-10">
+        <button id="btnCreate" type="submit" class="btn bg-olive btn-lg">Thêm Mới</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#btnCreate").click(function (e) {
+            var data = $("#formCreate").serialize();
+            $.ajax({
+                type: "POST",
+                url: "/NhaCungCap/ThemMoi",
+                data: data,
+                success: function (result) {
+                    if (result) {
+                        alert("Thêm mới thành công");
+                        location.reload();
+                    }
+                    else {
+                        alert("Số điện thoại hoặc Email hoặc Mã số thuế đã tồn tại!!");
+                    }
+                }
+            })
+        })
+    })
+</script>
