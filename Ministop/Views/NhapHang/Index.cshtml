@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/Assets/BanHang_Layout/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -13,7 +12,6 @@
     <link rel="stylesheet" href="~/Assets/BanHang_Layout/css/style.css">
 </head>
 <body>
-
     <!-- header -->
     <div class="container-fluid">
         <div class="row bg-info py-2">
@@ -23,15 +21,14 @@
                         <input class="form-control mr-sm-2 w-50" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
                     </form>
-                    <a href="/NhapHang/XacNhanDatHang">TEST123321</a>
+                    <span id="nn-cart-count">@Ministop.ModelsView.NhapHangViewModel.Cart.Count</span> item<i class="caret"></i>
+                    <br /><span>$</span><span class="price" id="nn-cart-total"><strong>@Ministop.ModelsView.NhapHangViewModel.Cart.Total</strong></span>
                 </div>
             </div>
         </div>
     </div>
 
-
     <!-- content -->
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
@@ -39,15 +36,18 @@
                     <!-- product -->
                     @foreach (var item in Model)
                     {
-        <div class="col-sm-2 bg-light product position-relative">
-            <a href="@Url.Action("ThemSanPham", new { sanPhamID = item.ID, soLuong = 1 })" class="text-decoration-none">
-                <img class="card-img-top" src="~/Img/SanPham/@item.HinhAnh" alt="@item.TenSanPham">
-                <div class="card-body p-0">
-                    <label>@item.TenSanPham</label>
-                </div>
-            </a>
-            <div class="text-dark price">@item.GiaBan</div>
-        </div>}
+                        <div class="col-sm-2 bg-light product position-relative">
+                            @*<a href="@Url.Action("ThemSanPham", new { sanPhamID = item.ID, soLuong = 1 })" class="text-decoration-none">*@
+                            <button type="button" class="btn btn-default add-to-cart" data-id="@item.ID">
+
+                                <img class="card-img-top" src="~/Img/SanPham/@item.HinhAnh" alt="@item.TenSanPham">
+                                <div class="card-body p-0">
+                                    <label>@item.TenSanPham</label>
+                                </div>
+                            </button>
+                            @*</a>*@
+                            <div class="text-dark price">@item.GiaBan</div>
+                        </div>}
                 </div>
             </div>
             @*<div class="col-sm-4 ">
@@ -78,10 +78,33 @@
         </div>
     </div>
 
-
     <!-- JQuery -->
     <script src="~/Assets/BanHang_Layout/jquery/jquery-3.5.1.js"></script>
     <!-- Main js -->
     <script src="~/Assets/BanHang_Layout/js/script.js"></script>
+    <script>
+        $(function () {
+            $(".add-to-cart").click(function () {
+                pid = $(this).attr("data-id");
+                $.ajax({
+                    url: "/NhapHang/Add",
+                    data: { id: pid },
+                    success: function (response) {
+                        $("#nn-cart-count").html(response.Count);
+                        $("#nn-cart-total").html(response.Total);
+                    }
+                });
+
+                // hieu ung bay vao gio
+                //cssfly = ".fly-effect {background:url(?);background-size:100% 100%;}";
+                //src = $("#i" + pid).attr("src");
+                //newcssfly = cssfly.replace("?", src);
+                //$("#cart-fly").html(newcssfly);
+
+                //options = { to: "#nn-cart-image", className: "fly-effect" };
+                //$("#i" + pid).effect("transfer", options, 500, function () { });
+            });
+        });
+    </script>
 </body>
 </html>

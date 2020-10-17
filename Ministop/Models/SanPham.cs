@@ -31,12 +31,12 @@ namespace Ministop.Models
         public string HinhAnh { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? GiaNhap { get; set; }
+        public decimal GiaNhap { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? GiaBan { get; set; }
+        public decimal GiaBan { get; set; }
 
-        public int? SoLuong { get; set; }
+        public int SoLuong { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? NgayThem { get; set; }
