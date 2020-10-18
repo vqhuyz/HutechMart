@@ -51,5 +51,21 @@ namespace Ministop.Controllers
             var chiTiet = new { nhapHang.SoLuong, nhapHang.TongTien };
             return Json(chiTiet, JsonRequestBehavior.AllowGet);
         }
+
+        //public ActionResult ThanhToan(int maNV)
+        //{
+        //    var cart = DanhSachSanPham.DanhSach;
+        //    int ProductId;
+        //    decimal UnitPrice;
+        //    int Discount;
+        //    foreach (var p in cart.listSanPham)
+        //    {
+
+        //        ProductId = p.ID;
+        //        UnitPrice = p.GiaBan;
+        //        Discount = p.SoLuong;
+        //    }
+        //    return View();
+        //}
     }
 }

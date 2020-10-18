@@ -16,7 +16,6 @@ namespace Ministop.Common
             get
             {
                 var sanPham = HttpContext.Current.Session["SanPham"] as DanhSachSanPham;
-                // Nếu chưa có giỏ hàng trong session -> tạo mới và lưu vào session
                 if (sanPham == null)
                 {
                     sanPham = new DanhSachSanPham();
@@ -44,13 +43,12 @@ namespace Ministop.Common
 
         public void ThemSanPham(int id)
         {
-            // tìm thấy trong giỏ -> tăng số lượng lên 1
             var sanPham = listSanPham.Find(i => i.ID == id);
             if (sanPham != null)
             {
                 sanPham.SoLuong++;
             }
-            else // chưa có trong giỏ -> truy vấn CSDL và bỏ vào giỏ
+            else
             {
                 var sanPhamID = new SanPhamService();
                 var item = sanPhamID.GetById(id);
