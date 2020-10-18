@@ -148,7 +148,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Common\ConnectionS.cs" />
+    <Compile Include="Common\DanhSachSanPham.cs" />
     <Compile Include="Common\Encryptor.cs" />
+    <Compile Include="Controllers\BanHangController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KhachHangController.cs" />
@@ -169,7 +171,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ModelsView\DangNhapViewModel.cs" />
-    <Compile Include="ModelsView\NhapHangViewModel.cs" />
     <Compile Include="ModelsView\DoanhSoViewModel.cs" />
     <Compile Include="ModelsView\KhachHangViewModel.cs" />
     <Compile Include="ModelsView\LoaiSanPhamViewModel.cs" />
@@ -4001,6 +4002,7 @@
     <Content Include="Views\NhanVien\NgungHoatDong.cshtml" />
     <Content Include="Views\NhaCungCap\NgungHoatDong.cshtml" />
     <Content Include="Views\NhapHang\Index.cshtml" />
+    <Content Include="Views\BanHang\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

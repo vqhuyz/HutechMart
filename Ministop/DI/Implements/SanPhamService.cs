@@ -37,6 +37,11 @@ namespace Ministop.DI.Implements
             }
         }
 
+        public void test()
+        {
+
+        }
+
         public SanPhamViewModel GetById(int id)
         {
             using (var connection = new SqlConnection(ConnectionS.connectionString))

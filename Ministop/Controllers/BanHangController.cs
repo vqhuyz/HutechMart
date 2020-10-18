@@ -2,18 +2,17 @@
 using Ministop.DI.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Ministop.Controllers
 {
-    public class NhapHangController : BaseController
+    public class BanHangController : Controller
     {
-        // GET: NhapHang
+        // GET: BanHang
         ISanPhamService sanPham;
-        public NhapHangController(ISanPhamService _sanPham)
+        public BanHangController(ISanPhamService _sanPham)
         {
             sanPham = _sanPham;
         }
