@@ -19,53 +19,64 @@ namespace Ministop.Controllers
 
         public ActionResult Index(string search, int page = 1, int pagesize = 10)
         {
-            var nhapHang = DanhSachSanPham.DanhSach;
-            ViewBag.SanPham = nhapHang.listSanPham;
+            var banHang = DanhSachSanPham.DanhSach;
+            ViewBag.SanPham = banHang.listSanPham;
             return View(sanPham.GetAll(search, page, pagesize));
         }
 
         public ActionResult ThemSanPham(int id)
         {
-            var nhapHang = DanhSachSanPham.DanhSach;
-            nhapHang.ThemSanPham(id);
+            var banHang = DanhSachSanPham.DanhSach;
+            banHang.ThemSanPham(id);
 
-            var chiTiet = new { nhapHang.SoLuong, nhapHang.TongTien };
+            var chiTiet = new { banHang.SoLuong, banHang.TongTien };
             return Json(chiTiet, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CapNhatSoLuong(int id, int soLuong)
         {
-            var nhapHang = DanhSachSanPham.DanhSach;
-            nhapHang.CapNhatSoLuong(id, soLuong);
+            var banHang = DanhSachSanPham.DanhSach;
+            banHang.CapNhatSoLuong(id, soLuong);
 
-            var p = nhapHang.listSanPham.Single(i => i.ID == id);
-            var chiTiet = new { nhapHang.SoLuong, nhapHang.TongTien };
+            var p = banHang.listSanPham.Single(i => i.ID == id);
+            var chiTiet = new {
+                banHang.SoLuong,
+                banHang.TongTien,
+                ThanhTien = p.SoLuong * p.GiaBan
+            };
             return Json(chiTiet, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult XoaSanPham(int id)
         {
-            var nhapHang = DanhSachSanPham.DanhSach;
-            nhapHang.XoaSanPham(id);
+            var banHang = DanhSachSanPham.DanhSach;
+            banHang.XoaSanPham(id);
 
-            var chiTiet = new { nhapHang.SoLuong, nhapHang.TongTien };
+            var chiTiet = new { banHang.SoLuong, banHang.TongTien };
             return Json(chiTiet, JsonRequestBehavior.AllowGet);
         }
 
-        //public ActionResult ThanhToan(int maNV)
-        //{
-        //    var cart = DanhSachSanPham.DanhSach;
-        //    int ProductId;
-        //    decimal UnitPrice;
-        //    int Discount;
-        //    foreach (var p in cart.listSanPham)
-        //    {
+        public ActionResult XoaHet()
+        {
+            var banHang = DanhSachSanPham.DanhSach;
+            banHang.XoaHet();
+            return RedirectToAction("Index");
+        }
 
-        //        ProductId = p.ID;
-        //        UnitPrice = p.GiaBan;
-        //        Discount = p.SoLuong;
-        //    }
-        //    return View();
-        //}
+        public ActionResult ThanhToan(int maNV, int tongTien)
+        {
+            //var cart = DanhSachSanPham.DanhSach;
+            //int ProductId;
+            //decimal UnitPrice;
+            //int Discount;
+            //foreach (var p in cart.listSanPham)
+            //{
+
+            //    ProductId = p.ID;
+            //    UnitPrice = p.GiaBan;
+            //    Discount = p.SoLuong;
+            //}
+            return View();
+        }
     }
 }

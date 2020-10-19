@@ -27,11 +27,11 @@
             </div>
         </div>
     </div>
-
+    <br />
     <!-- content -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <div class="row">
                     <!-- product -->
                     @foreach (var item in Model)
@@ -45,7 +45,8 @@
                                 </div>
                             </button>
                             <div class="text-dark price">@item.GiaBan</div>
-                        </div>}
+                        </div>
+                        }
                 </div>
             </div>
             <div class="col-sm-4">
@@ -55,7 +56,7 @@
                             <th>Tên sản phẩm</th>
                             <th>Giá bán</th>
                             <th>Số lượng</th>
-                            <th>@Ministop.Common.DanhSachSanPham.DanhSach.TongTien</th>
+                            <th>Thành tiền</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,8 +65,9 @@
                             {
                                 <tr>
                                     <td>@test.TenSanPham</td>
-                                    <td>@String.Format("{0:0,0 VND}", test.GiaBan)</td>
+                                    <td>@String.Format("{0:0,0}", test.GiaBan)</td>
                                     <td><input class="so-luong text-center" value="@test.SoLuong" data-id="@test.ID" size="3"></td>
+                                    <td id="thanhtien-@test.ID">@String.Format("{0:0,0}", test.GiaBan * test.SoLuong)</td>
                                     <td>
                                         <button class="xoa-san-pham btn btn-default" data-id="@test.ID">Bỏ</button>
                                     </td>
@@ -74,6 +76,34 @@
                         </tboy>
                 </table>
             </div>
+            <div class="col-sm-3">
+                <input id="maNV" type="hidden" value="@session.ID" />
+                <input id="tongTien" type="hidden" value="@Ministop.Common.DanhSachSanPham.DanhSach.TongTien" />
+                <label><b>Nhân viên: @session.TenNhanVien</b></label>
+                <input class="form-control mr-sm-2 w-100 mt-3" type="text" placeholder="Mã khách hàng" aria-label="Search">
+                <div class="w-25 bg-info text-white my-3 text-center p-2">
+                    Hóa Đơn
+                </div>
+                <div class="border-bottom py-2">
+                    <label class="text-danger font-weight-bold">Số lượng: </label>
+                    <label id="so-luong" class="w-50 ml-5 text-right">@Ministop.Common.DanhSachSanPham.DanhSach.SoLuong Sản phẩm</label>
+                </div>
+                <div class="border-bottom py-2">
+                    <label class="text-danger font-weight-bold">Tổng tiền: </label>
+                    <label id="tong-tien" class="w-50 ml-5 text-right">@String.Format("{0:0,0} VNĐ", Ministop.Common.DanhSachSanPham.DanhSach.TongTien)</label>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-12 text-right">
+                        <a href="/BanHang/XoaHet">Hủy đơn</a>
+                    </div>
+                </div>
+
+                <div class="row px-3  mt-3">
+                    <button class="col-sm-12 btn btn-success thanh-toan">
+                        Thanh toán
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -81,40 +111,57 @@
     <script src="~/Assets/BanHang_Layout/js/script.js"></script>
     <script>
         $(function () {
-            $(".them-san-pham").click(function () {
-                pid = $(this).attr("data-id");
+            $(".thanh-toan").click(function () {
+                var maNV = $("#maNV").val();
+                var tongTien = $("#tongTien").val();
+
                 $.ajax({
-                    url: "/NhapHang/ThemSanPham",
-                    data: { id: pid },
+                    type: "POST",
+                    url: "/BanHang/ThanhToan",
+                    data: { maNV, tongTien },
                     success: function (response) {
-                        console.log(response.SoLuong)
-                        console.log(response.TongTien)
+
+                    }
+                });
+            });
+
+            $(".them-san-pham").click(function () {
+                id = $(this).attr("data-id");
+                $.ajax({
+                    url: "/BanHang/ThemSanPham",
+                    data: { id: id },
+                    success: function (response) {
+                        $("#so-luong").html(response.SoLuong + "Sản phẩm");
+                        $("#tong-tien").html(response.TongTien + "VNĐ");
                     }
                 });
             });
 
             $(".so-luong").keyup(function () {
-                pid = $(this).attr("data-id");
-                qty = $(this).val();
+                id = $(this).attr("data-id");
+                soluong = $(this).val();
                 $.ajax({
-                    url: "/NhapHang/CapNhatSoLuong",
-                    data: { id: pid, soLuong: qty },
+                    url: "/BanHang/CapNhatSoLuong",
+                    data: { id: id, soLuong: soluong },
+
                     success: function (response) {
-                        console.log(response.SoLuong)
-                        console.log(response.TongTien)
+                        $("#so-luong").html(response.SoLuong + "Sản phẩm");
+                        $("#tong-tien").html(response.TongTien + "VNĐ");
+                        $("#thanhtien-" + id).html(response.ThanhTien);
+
                     }
                 });
             });
 
             $(".xoa-san-pham").click(function () {
-                pid = $(this).attr("data-id");
+                id = $(this).attr("data-id");
                 tr = $(this).parents("tr");
                 $.ajax({
-                    url: "/Nhaphang/XoaSanPham",
-                    data: { id: pid },
+                    url: "/BanHang/XoaSanPham",
+                    data: { id: id },
                     success: function (response) {
-                        console.log(response.SoLuong)
-                        console.log(response.TongTien)
+                        $("#so-luong").html(response.SoLuong);
+                        $("#tong-tien").html(response.TongTien);
                         tr.hide(500);
                     }
                 });

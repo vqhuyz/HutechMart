@@ -29,7 +29,7 @@ namespace Ministop.Common
         {
             get
             {
-                return listSanPham.Count;
+                return listSanPham.Sum(p=>p.SoLuong);
             }
         }
 
