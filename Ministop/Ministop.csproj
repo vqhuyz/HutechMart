@@ -157,7 +157,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\NhaCungCapController.cs" />
     <Compile Include="Controllers\NhanVienController.cs" />
-    <Compile Include="Controllers\NhapHangController.cs" />
     <Compile Include="Controllers\SanPhamController.cs" />
     <Compile Include="DI\Implements\BanHangService.cs" />
     <Compile Include="DI\Implements\SanPhamService.cs" />
@@ -4003,7 +4002,6 @@
     <Content Include="Views\Shared\_SidebarParial.cshtml" />
     <Content Include="Views\NhanVien\NgungHoatDong.cshtml" />
     <Content Include="Views\NhaCungCap\NgungHoatDong.cshtml" />
-    <Content Include="Views\NhapHang\Index.cshtml" />
     <Content Include="Views\BanHang\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
