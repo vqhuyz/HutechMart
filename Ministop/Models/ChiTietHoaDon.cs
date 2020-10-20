@@ -10,14 +10,14 @@ namespace Ministop.Models
     public partial class ChiTietHoaDon
     {
         [Key]
-        [Column(Order = 0)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int SanPhamID { get; set; }
-
-        [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int HoaDonID { get; set; }
+
+        [Key]
+        [Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int SanPhamID { get; set; }
 
         public int? SoLuong { get; set; }
 

@@ -1,7 +1,10 @@
-﻿using Ministop.DI.Implements;
+﻿using Dapper;
+using Ministop.DI.Implements;
 using Ministop.ModelsView;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -29,15 +32,18 @@ namespace Ministop.Common
         {
             get
             {
-                return listSanPham.Sum(p=>p.SoLuong);
+                return listSanPham.Sum(p => p.SoLuong);
             }
         }
 
-        public double TongTien
+        public string TongTien
         {
             get
             {
-                return listSanPham.Sum(p => (double)p.GiaBan * p.SoLuong);
+                var banHang = new BanHangService();
+                var vat = banHang.VAT();
+                float test = (float)vat / 100;
+                return string.Format("{0:0,0}", listSanPham.Sum(p => ((double)p.GiaBan * p.SoLuong) + ((double)p.GiaBan * p.SoLuong * test)));
             }
         }
 

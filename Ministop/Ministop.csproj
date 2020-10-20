@@ -159,10 +159,12 @@
     <Compile Include="Controllers\NhanVienController.cs" />
     <Compile Include="Controllers\NhapHangController.cs" />
     <Compile Include="Controllers\SanPhamController.cs" />
+    <Compile Include="DI\Implements\BanHangService.cs" />
     <Compile Include="DI\Implements\SanPhamService.cs" />
     <Compile Include="DI\Implements\KhachHangService.cs" />
     <Compile Include="DI\Implements\NhaCungCapService.cs" />
     <Compile Include="DI\Implements\NhanVienService.cs" />
+    <Compile Include="DI\Interfaces\IBanHangService.cs" />
     <Compile Include="DI\Interfaces\IKhachHangService.cs" />
     <Compile Include="DI\Interfaces\INhaCungCapService.cs" />
     <Compile Include="DI\Interfaces\INhanVienService.cs" />

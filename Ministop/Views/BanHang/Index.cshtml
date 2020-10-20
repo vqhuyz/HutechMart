@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<Ministop.ModelsView.SanPhamViewModel>
+
 @{ var session = (Ministop.ModelsView.DangNhapViewModel)Session["DangNhap"]; }
 
 <!DOCTYPE html>
@@ -36,53 +37,39 @@
                     <!-- product -->
                     @foreach (var item in Model)
                     {
-                        <div class="col-sm-2 bg-light product position-relative">
-                            <button type="button" class="btn btn-default them-san-pham" data-id="@item.ID">
+                    <div class="col-sm-2 bg-light product position-relative">
+                        <button type="button" class="btn btn-default them-san-pham" data-id="@item.ID">
 
-                                <img class="card-img-top" src="~/Img/SanPham/@item.HinhAnh" alt="@item.TenSanPham">
-                                <div class="card-body p-0">
-                                    <label>@item.TenSanPham</label>
-                                </div>
-                            </button>
-                            <div class="text-dark price">@item.GiaBan</div>
-                        </div>
-                        }
+                            <img class="card-img-top" src="~/Img/SanPham/@item.HinhAnh" alt="@item.TenSanPham">
+                            <div class="card-body p-0">
+                                <p>@item.TenSanPham</p>
+                            </div>
+                        </button>
+                        <div class="text-dark price">@String.Format("{0:0,0 VND}", item.GiaBan)</div>
+                    </div>}
                 </div>
             </div>
             <div class="col-sm-4">
                 <table class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th>Tên sản phẩm</th>
-                            <th>Giá bán</th>
-                            <th>Số lượng</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tboy>
-                            @foreach (var test in ViewBag.SanPham)
-                            {
-                                <tr>
-                                    <td>@test.TenSanPham</td>
-                                    <td>@String.Format("{0:0,0}", test.GiaBan)</td>
-                                    <td><input class="so-luong text-center" value="@test.SoLuong" data-id="@test.ID" size="3"></td>
-                                    <td id="thanhtien-@test.ID">@String.Format("{0:0,0}", test.GiaBan * test.SoLuong)</td>
-                                    <td>
-                                        <button class="xoa-san-pham btn btn-default" data-id="@test.ID">Bỏ</button>
-                                    </td>
-                                </tr>
-                            }
-                        </tboy>
-                </table>
+                        <thead>
+                            <tr>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá bán</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listSanPham">
+                        </tbody>
+                    </table>
             </div>
             <div class="col-sm-3">
-                <input id="maNV" type="hidden" value="@session.ID" />
-                <input id="tongTien" type="hidden" value="@Ministop.Common.DanhSachSanPham.DanhSach.TongTien" />
+                <input type="hidden" id="nhanVienID" value="@session.ID" />
                 <label><b>Nhân viên: @session.TenNhanVien</b></label>
-                <input class="form-control mr-sm-2 w-100 mt-3" type="text" placeholder="Mã khách hàng" aria-label="Search">
-                <div class="w-25 bg-info text-white my-3 text-center p-2">
-                    Hóa Đơn
+                <input class="form-control mr-sm-2 w-100 mt-3" type="text" placeholder="Số điện thoại khách hàng" id="soDT">
+
+                <div class="bg-info text-white my-3 text-center p-2">
+                    Hóa đơn
                 </div>
                 <div class="border-bottom py-2">
                     <label class="text-danger font-weight-bold">Số lượng: </label>
@@ -112,60 +99,80 @@
     <script>
         $(function () {
             $(".thanh-toan").click(function () {
-                var maNV = $("#maNV").val();
-                var tongTien = $("#tongTien").val();
-
+                var nhanVienID = parseInt($("#nhanVienID").val());
+                var soDT = $("#soDT").val();
                 $.ajax({
                     type: "POST",
+                    data: { nhanVienID, soDT },
                     url: "/BanHang/ThanhToan",
-                    data: { maNV, tongTien },
                     success: function (response) {
-
+                        if (response == true) {
+                            alert("Thanh toán thành công");
+                        } else {
+                            alert("Thanh toán thất bại")
+                        }
                     }
                 });
             });
 
             $(".them-san-pham").click(function () {
+                $("#listSanPham").empty();
                 id = $(this).attr("data-id");
                 $.ajax({
                     url: "/BanHang/ThemSanPham",
                     data: { id: id },
                     success: function (response) {
-                        $("#so-luong").html(response.SoLuong + "Sản phẩm");
-                        $("#tong-tien").html(response.TongTien + "VNĐ");
+                        $("#so-luong").html(response.SoLuong + "" +  "Sản phẩm");
+                        $("#tong-tien").html(response.TongTien + "" +"VNĐ");
+
+                        $.each(response.listSanPham, function (index, item) {
+                            var str = '<tr>'
+                                + '<td>' + item.TenSanPham + '</td>'
+                                + '<td>' + item.GiaBan + '</td>'
+                                + ' <td><input class="so-luong text-center" value="' + item.SoLuong + '" data-id="' + item.ID + '" size="3"></td>'
+                                + '<td id="thanhtien-' + item.ID + '">' + item.GiaBan * item.SoLuong + '</td>'
+                                + '<td>'
+                                + '<button class="xoa-san-pham btn btn-default" data-id="' + item.ID + '">Bỏ</button>'
+                                + '</td>'
+                                + '</tr>';
+                            $("#listSanPham").append(str);
+
+                        });
+                        $(".so-luong").keyup(function () {
+                            id = $(this).attr("data-id");
+                            soluong = $(this).val();
+                            if (soluong == 0) {
+                                alert("Số lượng phải lớn hơn 0");
+                            }
+                            $.ajax({
+                                url: "/BanHang/CapNhatSoLuong",
+                                data: { id: id, soLuong: soluong },
+
+                                success: function (response) {
+                                    $("#so-luong").html(response.SoLuong + "Sản phẩm");
+                                    $("#tong-tien").html(response.TongTien + "VNĐ");
+                                    $("#thanhtien-" + id).html(response.ThanhTien);
+
+                                }
+                            });
+                        });
+
+                        $(".xoa-san-pham").click(function () {
+                            id = $(this).attr("data-id");
+                            tr = $(this).parents("tr");
+                            $.ajax({
+                                url: "/BanHang/XoaSanPham",
+                                data: { id: id },
+                                success: function (response) {
+                                    $("#so-luong").html(response.SoLuong + "Sản phẩm");
+                                    $("#tong-tien").html(response.TongTien + "VNĐ");
+                                    tr.hide(500);
+                                }
+                            });
+                        });                 
                     }
                 });
-            });
-
-            $(".so-luong").keyup(function () {
-                id = $(this).attr("data-id");
-                soluong = $(this).val();
-                $.ajax({
-                    url: "/BanHang/CapNhatSoLuong",
-                    data: { id: id, soLuong: soluong },
-
-                    success: function (response) {
-                        $("#so-luong").html(response.SoLuong + "Sản phẩm");
-                        $("#tong-tien").html(response.TongTien + "VNĐ");
-                        $("#thanhtien-" + id).html(response.ThanhTien);
-
-                    }
-                });
-            });
-
-            $(".xoa-san-pham").click(function () {
-                id = $(this).attr("data-id");
-                tr = $(this).parents("tr");
-                $.ajax({
-                    url: "/BanHang/XoaSanPham",
-                    data: { id: id },
-                    success: function (response) {
-                        $("#so-luong").html(response.SoLuong);
-                        $("#tong-tien").html(response.TongTien);
-                        tr.hide(500);
-                    }
-                });
-            });
+            });          
         });
     </script>
 </body>

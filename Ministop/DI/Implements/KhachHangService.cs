@@ -43,7 +43,7 @@ namespace Ministop.DI.Implements
             {
                 try
                 {
-                    var themMoi = connection.Execute("sp_ThemMoi_KhachHang",
+                    var themMoi = connection.ExecuteScalar<int>("sp_ThemMoi_KhachHang",
                                   new
                                   {
                                       tenKH = _khachHang.TenKH,
