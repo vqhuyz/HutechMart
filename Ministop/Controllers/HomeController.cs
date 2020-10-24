@@ -1,14 +1,10 @@
 ﻿using Dapper;
-using Ministop.Models;
 using Ministop.ModelsView;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Ministop.Controllers
@@ -18,7 +14,6 @@ namespace Ministop.Controllers
         public ActionResult Index()
         {
             ViewBag.Thang = DateTime.Now.Month;
-
             return View();
         }
 
@@ -27,7 +22,7 @@ namespace Ministop.Controllers
             var dt = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             List<Dulieu> view = new List<Dulieu>();
             Dulieu dulieu = new Dulieu();
-            DoanhSoViewModel data  = new DoanhSoViewModel();
+            DoanhSoViewModel data = new DoanhSoViewModel();
             List<DoanhSoView> dsv = new List<DoanhSoView>();
             for (int i = 1; i <= dt; i++)
             {

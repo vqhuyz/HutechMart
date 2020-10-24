@@ -152,6 +152,7 @@
     <Compile Include="Common\Encryptor.cs" />
     <Compile Include="Controllers\BanHangController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\HoaDonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\KhachHangController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -159,11 +160,13 @@
     <Compile Include="Controllers\NhanVienController.cs" />
     <Compile Include="Controllers\SanPhamController.cs" />
     <Compile Include="DI\Implements\BanHangService.cs" />
+    <Compile Include="DI\Implements\HoaDonService.cs" />
     <Compile Include="DI\Implements\SanPhamService.cs" />
     <Compile Include="DI\Implements\KhachHangService.cs" />
     <Compile Include="DI\Implements\NhaCungCapService.cs" />
     <Compile Include="DI\Implements\NhanVienService.cs" />
     <Compile Include="DI\Interfaces\IBanHangService.cs" />
+    <Compile Include="DI\Interfaces\IHoaDonService.cs" />
     <Compile Include="DI\Interfaces\IKhachHangService.cs" />
     <Compile Include="DI\Interfaces\INhaCungCapService.cs" />
     <Compile Include="DI\Interfaces\INhanVienService.cs" />
@@ -171,8 +174,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsView\ChiTietHoaDonViewModel.cs" />
     <Compile Include="ModelsView\DangNhapViewModel.cs" />
     <Compile Include="ModelsView\DoanhSoViewModel.cs" />
+    <Compile Include="ModelsView\HoaDonViewModel.cs" />
     <Compile Include="ModelsView\KhachHangViewModel.cs" />
     <Compile Include="ModelsView\LoaiSanPhamViewModel.cs" />
     <Compile Include="ModelsView\NhaCungCapViewModel.cs" />
@@ -4000,9 +4005,10 @@
     <Content Include="Scripts\kendo\2020.3.915\kendo.all.min.js.map" />
     <Content Include="Scripts\kendo\2020.3.915\jquery.min.map" />
     <Content Include="Views\Shared\_SidebarParial.cshtml" />
-    <Content Include="Views\NhanVien\NgungHoatDong.cshtml" />
-    <Content Include="Views\NhaCungCap\NgungHoatDong.cshtml" />
     <Content Include="Views\BanHang\Index.cshtml" />
+    <Content Include="Views\HoaDon\Index.cshtml" />
+    <Content Include="Views\HoaDon\ChiTietHoaDon.cshtml" />
+    <Content Include="Views\HoaDon\TraHang.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

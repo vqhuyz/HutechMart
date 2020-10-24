@@ -1,10 +1,7 @@
 ﻿using Ministop.DI.Interfaces;
-using Ministop.Models;
 using Ministop.ModelsView;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,9 +15,9 @@ namespace Ministop.Controllers
             sanPham = _sanPham;
         }
         // GET: SanPham
-        public ActionResult Index(string search, int page = 1, int pagesize = 10)
+        public ActionResult Index(int page = 1, int pagesize = 10)
         {
-            return View(sanPham.GetAll(search, page, pagesize));
+            return View(sanPham.GetAll(page, pagesize));
         }
 
         public ActionResult ThemMoi()
@@ -32,7 +29,7 @@ namespace Ministop.Controllers
         [HttpPost]
         public JsonResult ThemMoi(SanPhamViewModel _sanPham, HttpPostedFileBase HinhAnh)
         {
-            if(HinhAnh == null)
+            if (HinhAnh == null)
             {
                 _sanPham.HinhAnh = "SanPham.png";
             }
@@ -53,15 +50,15 @@ namespace Ministop.Controllers
         [HttpPost]
         public JsonResult CapNhat(SanPhamViewModel _sanPham, HttpPostedFileBase HinhAnh)
         {
-            if(HinhAnh != null)
+            if (HinhAnh != null)
             {
                 Random rd = new Random();
                 var thayAnh = _sanPham.TenSanPham + rd.Next(1, 10);
                 _sanPham.HinhAnh = LayHinhAnh(HinhAnh, thayAnh);
-            }         
+            }
             else
             {
-                var id  = sanPham.GetById(_sanPham.ID);
+                var id = sanPham.GetById(_sanPham.ID);
                 _sanPham.HinhAnh = id.HinhAnh;
             }
             bool result = sanPham.CapNhat(_sanPham);
@@ -76,7 +73,7 @@ namespace Ministop.Controllers
 
         public ActionResult BanHang(string search, int page = 1, int pagesize = 30)
         {
-            return View(sanPham.GetAll(search, page, pagesize));
+            return View(sanPham.GetAll(page, pagesize));
         }
 
         public string LayHinhAnh(HttpPostedFileBase HinhAnh, string tenSP)
@@ -93,6 +90,6 @@ namespace Ministop.Controllers
                 }
             }
             return fileName;
-        }     
+        }
     }
 }

@@ -1,32 +1,22 @@
 ﻿using Dapper;
 using Ministop.Common;
 using Ministop.DI.Interfaces;
-using Ministop.Models;
 using Ministop.ModelsView;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace Ministop.DI.Implements
 {
     public class NhanVienService : INhanVienService
     {
-        public IEnumerable<NhanVienViewModel> GetAll(string search, int page, int pagesize)
+        public IEnumerable<NhanVienViewModel> GetAll(int page, int pagesize)
         {
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                if (!string.IsNullOrEmpty(search))
-                {
-                    var nhanVien = connection.Query<NhanVienViewModel>("sp_Search_NhanVien", new { tenNV = search, soDT = search, chucVu = search }, commandType: CommandType.StoredProcedure);
-                    return nhanVien.ToPagedList(page, pagesize);
-                }
-                else
-                    return connection.Query<NhanVienViewModel>("sp_GetAll_NhanVien", commandType: CommandType.StoredProcedure).ToPagedList(page, pagesize);
+                return connection.Query<NhanVienViewModel>("sp_GetAll_NhanVien", commandType: CommandType.StoredProcedure).ToPagedList(page, pagesize);
             }
         }
 
@@ -146,7 +136,7 @@ namespace Ministop.DI.Implements
         public bool CapNhatThongTin(NhanVienViewModel _nhanVien)
         {
             bool result = true;
-            using(var connection = new SqlConnection(ConnectionS.connectionString))
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
                 try
                 {

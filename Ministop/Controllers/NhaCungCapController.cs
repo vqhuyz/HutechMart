@@ -1,9 +1,5 @@
 ﻿using Ministop.DI.Interfaces;
 using Ministop.ModelsView;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Ministop.Controllers
@@ -16,20 +12,14 @@ namespace Ministop.Controllers
             nhaCungCap = _nhaCungCap;
         }
         // GET: NhaCungCap
-        public ActionResult Index(string search, int page = 1, int pagesize = 10)
+        public ActionResult Index(int page = 1, int pagesize = 10)
         {
-            return View(nhaCungCap.GetAll(search, page, pagesize));
+            return View(nhaCungCap.GetAll(page, pagesize));
         }
-
-        public ActionResult NgungHoatDong(string search, int page = 1, int pagesize = 10)
-        {
-            return View(nhaCungCap.GetAll(search, page, pagesize));
-        }
-
         public ActionResult KichHoat(int id)
         {
             nhaCungCap.KichHoat(id);
-            return RedirectToAction("NgungHoatDong");
+            return RedirectToAction("Index");
         }
 
         public ActionResult ThemMoi()

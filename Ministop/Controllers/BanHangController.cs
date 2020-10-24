@@ -1,15 +1,11 @@
 ﻿using Ministop.Common;
 using Ministop.DI.Interfaces;
-using Ministop.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Ministop.Controllers
 {
-    public class BanHangController : Controller
+    public class BanHangController : BaseController
     {
         // GET: BanHang
         ISanPhamService sanPham;
@@ -20,9 +16,14 @@ namespace Ministop.Controllers
             banHang = _banHang;
         }
 
-        public ActionResult Index(string search, int page = 1, int pagesize = 10)
+        public ActionResult Index(int page = 1, int pagesize = 10)
         {
-            return View(sanPham.GetAll(search, page, pagesize));
+            return View(sanPham.GetAll(page, pagesize));
+        }
+
+        public ActionResult GetAll(int page = 1, int pagesize = 10)
+        {
+            return Json(sanPham.GetAll(page, pagesize));
         }
 
         public ActionResult ThemSanPham(int id)
@@ -64,22 +65,34 @@ namespace Ministop.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult KiemTra(string soDT)
+        {
+            var khachHang = banHang.LayMaKhachHang(soDT);
+            return Json(khachHang, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ThanhToan(int nhanVienID, string soDT)
         {
             bool result = false;
+            int hoaDonID;
             var sanPham = DanhSachSanPham.DanhSach;
             int VAT = banHang.VAT();
-            var tongTien = double.Parse(sanPham.TongTien);
+            var tongTien = sanPham.TongTien;
             int? khachHangID = banHang.LayMaKhachHang(soDT);
             if (khachHangID == 0)
             {
                 khachHangID = null;
             }
-            var hoaDonID = banHang.BanHang(nhanVienID, khachHangID, VAT , tongTien);
-            foreach (var item in sanPham.listSanPham)
+            if (banHang.KiemTraSoluong(sanPham.listSanPham))
             {
-                result = banHang.ChiTiet(hoaDonID, item.ID, item.SoLuong, item.GiaBan);
+                foreach (var item in sanPham.listSanPham)
+                {
+                    hoaDonID = banHang.BanHang(nhanVienID, khachHangID, VAT, tongTien);
+
+                    result = banHang.ChiTiet(hoaDonID, item.ID, item.SoLuong, item.GiaBan);
+                }
             }
+
             return Json(result, JsonRequestBehavior.AllowGet);
         }
     }

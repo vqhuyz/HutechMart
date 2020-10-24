@@ -1,30 +1,21 @@
 ﻿using Dapper;
 using Ministop.Common;
 using Ministop.DI.Interfaces;
-using Ministop.Models;
 using Ministop.ModelsView;
 using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace Ministop.DI.Implements
 {
     public class SanPhamService : ISanPhamService
     {
-        public IEnumerable<SanPhamViewModel> GetAll(string search, int page, int pagesize)
+        public IEnumerable<SanPhamViewModel> GetAll(int page, int pagesize)
         {
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                if (!string.IsNullOrEmpty(search))
-                {
-                    var sanPham = connection.Query<SanPhamViewModel>("sp_Search_SanPham", new { tenSanPham = search, thuongHieu = search }, commandType: CommandType.StoredProcedure);
-                    return sanPham.ToPagedList(page, pagesize);
-
-                }
                 return connection.Query<SanPhamViewModel>("sp_GetAll_SanPham", commandType: CommandType.StoredProcedure).ToPagedList(page, pagesize);
             }
         }
@@ -110,7 +101,7 @@ namespace Ministop.DI.Implements
         public bool Xoa(int id)
         {
             bool result = false;
-            using(var connection = new SqlConnection(ConnectionS.connectionString))
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
                 var xoa = connection.Execute("sp_Xoa_SanPham", new { Id = id, ngayCapNhat = DateTime.Now }, commandType: CommandType.StoredProcedure);
                 result = true;

@@ -1,8 +1,4 @@
-﻿using Ministop.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
 
 namespace Ministop.ModelsView
 {
@@ -18,9 +14,9 @@ namespace Ministop.ModelsView
 
         public string HinhAnh { get; set; }
 
-        public decimal GiaNhap { get; set; }
+        public double GiaNhap { get; set; }
 
-        public decimal GiaBan { get; set; }
+        public double GiaBan { get; set; }
 
         public int SoLuong { get; set; }
 

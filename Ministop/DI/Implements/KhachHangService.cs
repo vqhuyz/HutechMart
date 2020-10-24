@@ -1,30 +1,22 @@
 ﻿using Dapper;
+using Ministop.Common;
 using Ministop.DI.Interfaces;
+using Ministop.ModelsView;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using Ministop.Common;
-using Ministop.ModelsView;
-using PagedList;
 
 namespace Ministop.DI.Implements
 {
     public class KhachHangService : IKhachHangService
     {
-        public IEnumerable<KhachHangViewModel> GetAll(string search, int page, int pagesize)
+        public IEnumerable<KhachHangViewModel> GetAll(int page, int pagesize)
         {
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
-                if (!string.IsNullOrEmpty(search))
-                {
-                    var khachHang = connection.Query<KhachHangViewModel>("sp_Search_KhachHang", new { SoDT = search, TenKH = search }, commandType: CommandType.StoredProcedure);
-                    return khachHang.ToPagedList(page, pagesize);
-                }
-                else
-                    return connection.Query<KhachHangViewModel>("sp_GetAll_KhachHang", commandType: CommandType.StoredProcedure).ToPagedList(page, pagesize);
+                return connection.Query<KhachHangViewModel>("sp_GetAll_KhachHang", commandType: CommandType.StoredProcedure).ToPagedList(page, pagesize);
             }
         }
 
@@ -107,7 +99,17 @@ namespace Ministop.DI.Implements
                 }
             }
             return result;
+        }
 
+        public bool KichHoat(int id)
+        {
+            bool result = false;
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
+            {
+                var kichHoat = connection.Execute("sp_KichHoat_KhachHang", new { Id = id }, commandType: CommandType.StoredProcedure);
+                result = true;
+            }
+            return result;
         }
     }
 }

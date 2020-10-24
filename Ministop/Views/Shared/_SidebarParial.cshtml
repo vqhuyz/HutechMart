@@ -15,7 +15,7 @@
             </a>
         </li>
         <li id="orders">
-            <a href="#">
+            <a href="@Url.Action("Index","HoaDon")">
                 <i class="fa fa-book"></i>
                 <span>Hóa Đơn</span>
             </a>
@@ -33,29 +33,15 @@
         @if (session.PhanQuyenID == 1)
         {
             <li class="header">QUẢN LÝ</li>
-            <li class="treeview">
-                <a href="#">
+            <li id="employees">
+                <a href="@Url.Action("Index","NhanVien")">
                     <i class="fa fa-user"></i> <span>Nhân viên</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="@Url.Action("Index","NhanVien")"> Đang hoạt động</a></li>
-                    <li><a href="@Url.Action("NgungHoatDong","NhanVien")"> Ngưng hoạt động</a></li>
-                </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
+            <li id="customers">
+                <a href="@Url.Action("Index","NhaCungCap")">
                     <i class="fa fa-user-secret"></i> <span>Nhà cung cấp</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="@Url.Action("Index","NhaCungCap")"> Đang hoạt động</a></li>
-                    <li><a href="@Url.Action("NgungHoatDong","NhaCungCap")"> Ngưng hoạt động</a></li>
-                </ul>
             </li>
             <li id="products">
                 <a href="@Url.Action("Index","SanPham")">

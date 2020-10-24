@@ -1,9 +1,7 @@
 ﻿using Ministop.DI.Interfaces;
 using Ministop.ModelsView;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -17,22 +15,15 @@ namespace Ministop.Controllers
             nhanVien = _nhanVien;
         }
         // GET: NhanVien
-        public ActionResult Index(string search, int page = 1, int pagesize = 10)
+        public ActionResult Index(int page = 1, int pagesize = 10)
         {
-            ViewBag.Search = search;
-            return View(nhanVien.GetAll(search, page, pagesize));
-        }
-
-        public ActionResult NgungHoatDong(string search, int page = 1, int pagesize = 10)
-        {
-            ViewBag.Search = search;
-            return View(nhanVien.GetAll(search, page, pagesize));
+            return View(nhanVien.GetAll(page, pagesize));
         }
 
         public ActionResult KichHoat(int id)
         {
             nhanVien.KichHoat(id);
-            return RedirectToAction("NgungHoatDong");
+            return RedirectToAction("Index");
         }
 
         public ActionResult ThemMoi()
@@ -45,7 +36,7 @@ namespace Ministop.Controllers
         {
             if (HinhAnh == null)
             {
-                _nhanVien.HinhAnh = "NguoiDung.jpg";               
+                _nhanVien.HinhAnh = "NguoiDung.jpg";
             }
             else
             {
@@ -124,6 +115,6 @@ namespace Ministop.Controllers
             }
             return fileName;
         }
-    
+
     }
 }

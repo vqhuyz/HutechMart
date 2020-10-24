@@ -1,0 +1,25 @@
+﻿@model List<Ministop.ModelsView.ChiTietHoaDonViewModel>
+
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Mã sản phẩm</th>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá bán</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody id="table-khachhang">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td id="san-pham" data-id="@item.SanPhamID">@item.SanPhamID</td>
+                <td>@item.TenSanPham</td>
+                <td>@item.SoLuong</td>
+                <td>@String.Format("{0:0,0 VND}", item.GiaBan) </td>
+                <td>@String.Format("{0:0,0 VND}", item.GiaBan * item.SoLuong)</td>           
+            </tr>
+        }
+    </tbody>
+</table>

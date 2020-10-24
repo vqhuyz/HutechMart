@@ -1,13 +1,8 @@
 ﻿using Dapper;
 using Ministop.Common;
-using Ministop.Models;
 using Ministop.ModelsView;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Ministop.Controllers
@@ -36,7 +31,7 @@ namespace Ministop.Controllers
                     //Session["HinhAnh"] = dangNhap.HinhAnh;
                     //Session["QuyenHan"] = dangNhap.PhanQuyenID;
 
-                    return Json("OK",JsonRequestBehavior.AllowGet);
+                    return Json("OK", JsonRequestBehavior.AllowGet);
                 }
                 return Json("!OK", JsonRequestBehavior.AllowGet);
             }

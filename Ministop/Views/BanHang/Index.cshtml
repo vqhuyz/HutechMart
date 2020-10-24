@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<Ministop.ModelsView.SanPhamViewModel>
 
-@{ var session = (Ministop.ModelsView.DangNhapViewModel)Session["DangNhap"]; }
+@{ var session = (Ministop.ModelsView.DangNhapViewModel)Session["DangNhap"];
+    var sanPham = (Ministop.Common.DanhSachSanPham)Session["SanPham"];
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,8 +23,8 @@
             <div class="col-sm-12">
                 <div class="col-sm-12">
                     <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2 w-50" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-success my-2 my-sm-0" type="submit">Tìm kiếm</button>
+                        <a href="/Home/Index" class="text-white">Quay lại</a>
+                        <input class="form-control mr-sm-2 w-50" id="searching" placeholder="Search">
                     </form>
                 </div>
             </div>
@@ -37,43 +39,49 @@
                     <!-- product -->
                     @foreach (var item in Model)
                     {
-                    <div class="col-sm-2 bg-light product position-relative">
-                        <button type="button" class="btn btn-default them-san-pham" data-id="@item.ID">
+                        <div id="san-pham" class="col-sm-2 bg-light product position-relative">
+                            <button type="button" class="btn btn-default them-san-pham" data-id="@item.ID">
 
-                            <img class="card-img-top" src="~/Img/SanPham/@item.HinhAnh" alt="@item.TenSanPham">
-                            <div class="card-body p-0">
-                                <p>@item.TenSanPham</p>
-                            </div>
-                        </button>
-                        <div class="text-dark price">@String.Format("{0:0,0 VND}", item.GiaBan)</div>
-                    </div>}
+                                <img class="card-img-top" src="~/Img/SanPham/@item.HinhAnh" alt="@item.TenSanPham">
+                                <div class="card-body p-0">
+                                    <p>@item.TenSanPham</p>
+                                </div>
+                            </button>
+                            <div class="text-dark price">@String.Format("{0:0,0 VND}", item.GiaBan)</div>
+                        </div>}
                 </div>
             </div>
             <div class="col-sm-4">
                 <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Tên sản phẩm</th>
-                                <th>Giá bán</th>
-                                <th>Số lượng</th>
-                                <th>Thành tiền</th>
-                            </tr>
-                        </thead>
-                        <tbody id="listSanPham">
-                        </tbody>
-                    </table>
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá bán</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listSanPham"></tbody>
+                </table>
             </div>
             <div class="col-sm-3">
                 <input type="hidden" id="nhanVienID" value="@session.ID" />
                 <label><b>Nhân viên: @session.TenNhanVien</b></label>
                 <input class="form-control mr-sm-2 w-100 mt-3" type="text" placeholder="Số điện thoại khách hàng" id="soDT">
 
+                <a class="btn btn-success text-white" id="kiem-tra">Kiểm tra</a>
+
                 <div class="bg-info text-white my-3 text-center p-2">
                     Hóa đơn
                 </div>
+                <input class="form-control mr-sm-2 w-100 mt-3 text-center" placeholder="Mã giảm giá">
                 <div class="border-bottom py-2">
                     <label class="text-danger font-weight-bold">Số lượng: </label>
                     <label id="so-luong" class="w-50 ml-5 text-right">@Ministop.Common.DanhSachSanPham.DanhSach.SoLuong Sản phẩm</label>
+                </div>
+                <div class="border-bottom py-2">
+                    <label class="text-danger font-weight-bold">Thuế: </label>
+                    <label id="so-luong" class="w-50 ml-5 text-right">10%</label>
                 </div>
                 <div class="border-bottom py-2">
                     <label class="text-danger font-weight-bold">Tổng tiền: </label>
@@ -98,20 +106,25 @@
     <script src="~/Assets/BanHang_Layout/js/script.js"></script>
     <script>
         $(function () {
-            $(".thanh-toan").click(function () {
-                var nhanVienID = parseInt($("#nhanVienID").val());
+            $("#kiem-tra").click(function () {
                 var soDT = $("#soDT").val();
                 $.ajax({
-                    type: "POST",
-                    data: { nhanVienID, soDT },
-                    url: "/BanHang/ThanhToan",
+                    url: "/BanHang/KiemTra",
+                    data: { soDT: soDT },
                     success: function (response) {
                         if (response == true) {
-                            alert("Thanh toán thành công");
-                        } else {
-                            alert("Thanh toán thất bại")
+                            alert("Thành công");
+                        }
+                        else {
+                            alert("Khách hàng chưa đăng kí hội viên");
                         }
                     }
+                })
+            })
+            $("#searching").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#san-pham").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
 
@@ -122,9 +135,6 @@
                     url: "/BanHang/ThemSanPham",
                     data: { id: id },
                     success: function (response) {
-                        $("#so-luong").html(response.SoLuong + "" +  "Sản phẩm");
-                        $("#tong-tien").html(response.TongTien + "" +"VNĐ");
-
                         $.each(response.listSanPham, function (index, item) {
                             var str = '<tr>'
                                 + '<td>' + item.TenSanPham + '</td>'
@@ -138,6 +148,9 @@
                             $("#listSanPham").append(str);
 
                         });
+                        $("#so-luong").html(response.SoLuong + "" + "Sản phẩm");
+                        $("#tong-tien").html(response.TongTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "" + "VNĐ");
+
                         $(".so-luong").keyup(function () {
                             id = $(this).attr("data-id");
                             soluong = $(this).val();
@@ -150,9 +163,8 @@
 
                                 success: function (response) {
                                     $("#so-luong").html(response.SoLuong + "Sản phẩm");
-                                    $("#tong-tien").html(response.TongTien + "VNĐ");
+                                    $("#tong-tien").html(response.TongTientoString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "" + "VNĐ");
                                     $("#thanhtien-" + id).html(response.ThanhTien);
-
                                 }
                             });
                         });
@@ -165,14 +177,31 @@
                                 data: { id: id },
                                 success: function (response) {
                                     $("#so-luong").html(response.SoLuong + "Sản phẩm");
-                                    $("#tong-tien").html(response.TongTien + "VNĐ");
+                                    $("#tong-tien").html(response.TongTien.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "VNĐ");
                                     tr.hide(500);
                                 }
                             });
-                        });                 
+                        });
                     }
                 });
-            });          
+            });
+
+            $(".thanh-toan").click(function () {
+                var nhanVienID = parseInt($("#nhanVienID").val());
+                var soDT = $("#soDT").val();
+                $.ajax({
+                    type: "POST",
+                    data: { nhanVienID, soDT },
+                    url: "/BanHang/ThanhToan",
+                    success: function (response) {
+                        if (response == true) {
+                            alert("Thanh toán thành công");
+                        } else {
+                            alert("Số lượng sản phẩm không đủ!? Vui lòng kiểm tra lại.")
+                        }
+                    }
+                });
+            });
         });
     </script>
 </body>

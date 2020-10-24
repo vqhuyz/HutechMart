@@ -1,15 +1,11 @@
 ﻿using Ministop.ModelsView;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ministop.DI.Interfaces
 {
     public interface ISanPhamService
     {
-        IEnumerable<SanPhamViewModel> GetAll(string search, int page, int pagesize);
+        IEnumerable<SanPhamViewModel> GetAll(int page, int pagesize);
         IEnumerable<LoaiSanPhamViewModel> GetAll_LoaiSp();
         SanPhamViewModel GetById(int id);
         bool ThemMoi(SanPhamViewModel sanPham);

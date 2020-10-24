@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace Ministop.DI.Implements
 {
@@ -17,6 +15,7 @@ namespace Ministop.DI.Implements
         {
             using (var connection = new SqlConnection(ConnectionS.connectionString))
             {
+
                 var banHang = connection.ExecuteScalar<int>("sp_ThemMoi_HoaDon", new
                 {
                     nhanVienID = nhanVienID,
@@ -28,8 +27,7 @@ namespace Ministop.DI.Implements
                 return banHang;
             }
         }
-
-        public bool ChiTiet(int hoaDonID, int sanPhamID, int soLuong, decimal giaBan)
+        public bool ChiTiet(int hoaDonID, int sanPhamID, int soLuong, double giaBan)
         {
             bool result = true;
             using (var connection = new SqlConnection(ConnectionS.connectionString))
@@ -43,12 +41,45 @@ namespace Ministop.DI.Implements
                         soLuong = soLuong,
                         giaBan = giaBan,
                     }, commandType: CommandType.StoredProcedure);
+
+                    var sanPham = LaySanPham(sanPhamID);
+                    var sl = sanPham.SoLuong - soLuong;
+
+                    var capNhat = connection.Execute("sp_CapNhat_SoLuong", new { id = sanPhamID, soLuong = sl }, commandType: CommandType.StoredProcedure);
                 }
                 catch
                 {
                     result = false;
                 }
                 return result;
+            }
+        }
+
+        public bool KiemTraSoluong(List<SanPhamViewModel> lstSanPham)
+        {
+            bool result = false;
+            int check = 0;
+            foreach (var item in lstSanPham)
+            {
+                var sanPham = LaySanPham(item.ID);
+                var sl = sanPham.SoLuong - item.SoLuong;
+                if (sl < 0)
+                {
+                    check++;
+                }
+            }
+            if (check == 0)
+            {
+                result = true;
+            }
+            return result;
+        }
+
+        public SanPhamViewModel LaySanPham(int Id)
+        {
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
+            {
+                return connection.QueryFirstOrDefault<SanPhamViewModel>("sp_GetById_SanPham", new { id = Id }, commandType: CommandType.StoredProcedure);
             }
         }
 

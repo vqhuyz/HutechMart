@@ -10,7 +10,7 @@ namespace Ministop
     {
         public static void RegisterComponents()
         {
-			var container = new UnityContainer();
+            var container = new UnityContainer();
 
             // register all your components with the container here
             // it is NOT necessary to register your controllers
@@ -21,6 +21,8 @@ namespace Ministop
             container.RegisterType<INhanVienService, NhanVienService>();
             container.RegisterType<ISanPhamService, SanPhamService>();
             container.RegisterType<IBanHangService, BanHangService>();
+            container.RegisterType<IHoaDonService, HoaDonService>();
+
 
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

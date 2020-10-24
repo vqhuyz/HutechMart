@@ -1,0 +1,98 @@
+﻿@model PagedList.IPagedList<Ministop.ModelsView.HoaDonViewModel>
+@using PagedList.Mvc;
+
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+<section class="details mainLeft">
+    <div>
+        <div class="col-xs-3">
+            <h3 class="text-center">Hóa đơn</h3>
+            <div class="box">
+                <div class="box-body">
+                    <table id="productDetails" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Một cái gì đó</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" /></td>
+                                <td>3</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main content -->
+<section class="content mainRight">
+    <div>
+        <div class="col-xs-9">
+            <input id="searching" type="text" name="search" placeholder="Tìm kiếm" />
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" /></th>
+                                <th>Mã hóa đơn</th>
+                                <th>Người bán</th>
+                                <th>Ngày mua</th>
+                                <th>Tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-donhang">
+                            @foreach (var item in Model)
+                            {
+                            <tr data-toggle="collapse" data-target="#accordion_@item.ID" class="clickable">
+                                <td><input type="checkbox" /></td>
+                                <td>@item.ID</td>
+                                <td>@item.TenNhanVien</td>
+                                <td>@String.Format("{0:dd/mm/yyyy}", item.NgayMua)</td>
+                                <td>@String.Format("{0:0,0 VND}", item.TongTien)</td>
+                                <td>
+                                    <a href="/HoaDon/TraHang/@item.ID">Trả hàng</a>
+                                </td>
+                            </tr>
+                                <tr>
+                                    <td colspan="7">
+                                        <div id="accordion_@item.ID" class="collapse">
+                                            @Html.Action("ChiTietHoaDon", new { id = item.ID })
+                                        </div>
+                                    </td>
+                                </tr>
+}
+                        </tbody>
+                    </table>
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>$(function () {
+            $("#searching").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#table-donhang tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        })</script>
+}

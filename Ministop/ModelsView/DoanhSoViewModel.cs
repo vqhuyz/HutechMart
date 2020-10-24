@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Ministop.ModelsView
 {
@@ -11,7 +8,7 @@ namespace Ministop.ModelsView
     }
     public class DoanhSoView
     {
-        public DoanhSoView(double doanhso,string ngay)
+        public DoanhSoView(double doanhso, string ngay)
         {
             this.ngay = ngay;
             this.doanhso = doanhso;

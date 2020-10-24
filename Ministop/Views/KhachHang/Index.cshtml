@@ -1,59 +1,44 @@
 ﻿@model PagedList.IPagedList<Ministop.ModelsView.KhachHangViewModel>
 @using PagedList.Mvc;
-
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <section class="details mainLeft">
     <div>
-        <div class="col-xs-3">
+        <div class="col-xs-2">
             <h3 class="text-center">Khách hàng</h3>
             <div class="box">
                 <div class="box-body">
-                    <table id="productDetails" class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Một cái gì đó</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox" /></td>
-                                <td>1</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" /></td>
-                                <td>2</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" /></td>
-                                <td>3</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h4>Giới tính</h4>
+                    <input type="checkbox" id="check-nam" value="Nam" /> Nam
+                    <br />
+                    <input type="checkbox" id="check-nu" value="Nữ" /> Nữ
+                    <br />
+                    <input type="checkbox" id="check-khac" value="Khác" /> Khác
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-body">
+                    <h4>Trạng thái</h4>
+                    <input type="checkbox" id="check-hoatdong" value="Đang hoạt động" /> Đang hoạt động
+                    <br />
+                    <input type="checkbox" id="check-tamdung" value="Kích hoạt" /> Ngưng Hoạt động
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 <!-- Main content -->
 <section class="content mainRight">
     <div>
         <div class="col-xs-9">
-            @using (Html.BeginForm("Index", "KhachHang", FormMethod.Get))
-            {
-                <input type="text" name="search" placeholder="Theo tên, số điện thoại" />
-            }
+            <input id="searching" type="text" name="search" placeholder="Theo tên, số điện thoại" />
             <aside class="header-filter-buttons">
                 <a href="@Url.Action("ThemMoi")" class="btn btn-success" data-toggle="modal" data-target="#themMoi" data-backdrop="false">
                     <i class="fa fa-plus">Thêm mới</i>
                 </a>
             </aside>
-             <div class="modal fade" id="themMoi" aria-hidden="true">
+            <div class="modal fade" id="themMoi" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                     </div>
@@ -71,47 +56,86 @@
                                 <th>Giới tính</th>
                                 <th>Ngày sinh</th>
                                 <th>Số điện thoại</th>
+                                <th>Ngày tham gia</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="table-khachhang">
                             @foreach (var item in Model)
                             {
-                                if (item.TinhTrang == true)
+                            <tr data-toggle="collapse" data-target="#accordion_@item.ID" class="clickable">
+                                <td><input type="checkbox" /></td>
+                                <td>@item.ID</td>
+                                <td>@item.TenKH</td>
+                                <td>@item.GioiTinh</td>
+                                <td>@String.Format("{0:yyyy-MM-dd}", item.NgaySinh)</td>
+                                <td>@item.SoDT</td>
+                                <td>@String.Format("{0:yyyy-MM-dd}", item.NgayThamGia)</td>
+                                @if (item.TinhTrang == true)
                                 {
-                                    <tr data-toggle="collapse" data-target="#accordion_@item.ID" class="clickable">
-                                        <td><input type="checkbox" /></td>
-                                        <td>@item.ID</td>
-                                        <td>@item.TenKH</td>
-                                        <td>@item.GioiTinh</td>
-                                        <td>@String.Format("{0:dd/MM/yyyy}", item.NgaySinh)</td>
-                                        <td>@item.SoDT</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="7">
-                                            <div id="accordion_@item.ID" class="collapse">
-                                                <h1>@item.TenKH</h1>
-                                                <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#capNhat-@item.ID" data-backdrop="false">
-                                                    <i class="fa fa-plus">Cập nhật</i>
-                                                </a>
-                                                <div class="modal fade" id="capNhat-@item.ID" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                        </div>
+                                    <td>Đang hoạt động</td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <a href="@Url.Action("KichHoat", new { id = item.ID })">Kích hoạt</a>
+                                    </td>
+                                }
+                            </tr>
+                                <tr>
+                                    <td colspan="8">
+                                        <div id="accordion_@item.ID" class="collapse">
+                                            <h1>@item.TenKH</h1>
+                                            <a href="@Url.Action("CapNhat", new { id = item.ID })" class="btn btn-success" data-toggle="modal" data-target="#capNhat-@item.ID" data-backdrop="false">
+                                                <i class="fa fa-plus">Cập nhật</i>
+                                            </a>
+                                            <div class="modal fade" id="capNhat-@item.ID" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
                                                     </div>
                                                 </div>
-                                                <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
-                                                    <i class="fa fa-plus">Ngừng hoạt động</i>
-                                                </a>
                                             </div>
-                                        </td>
-                                    </tr>
-                                }
+                                            <a href="@Url.Action("Xoa", new { id = item.ID })" class="btn btn-success">
+                                                <i class="fa fa-plus">Ngừng hoạt động</i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.Search }))
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
                 </div>
             </div>
         </div>
     </div>
 </section>
+@section Scripts{
+    <script>
+        function FilterChecked(checked, table) {
+            checked.click(function () {
+                var value = $(checked).val().toLowerCase();
+                if (checked.prop("checked") == true) {
+                    table.filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                }
+                else {
+                    location.reload();
+                }
+            })
+        }
+        $(function () {
+            $("#searching").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#table-khachhang tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+            FilterChecked($("#check-nam"), $("#table-khachhang tr"))
+            FilterChecked($("#check-nu"), $("#table-khachhang tr"))
+            FilterChecked($("#check-khac"), $("#table-khachhang tr"))
+            FilterChecked($("#check-hoatdong"), $("#table-khachhang tr"))
+            FilterChecked($("#check-tamdung"), $("#table-khachhang tr"))
+        })
+    </script>
+}
