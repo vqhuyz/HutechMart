@@ -124,6 +124,7 @@
     $(document).ready(function () {
         $("#btnCreate").click(function (e) {
             var formData = new FormData($("#formCreate")[0]);
+            debugger
             $.ajax({
                 type: 'POST',
                 url: "/NhanVien/ThemMoi",

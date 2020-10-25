@@ -12,5 +12,6 @@ namespace Ministop.DI.Interfaces
         bool CapNhat(SanPhamViewModel sanPham);
         bool Xoa(int id);
         bool LoaiSanPham(LoaiSanPhamViewModel loaiSP);
+        bool GiamGia(int id, int giamGia);
     }
 }

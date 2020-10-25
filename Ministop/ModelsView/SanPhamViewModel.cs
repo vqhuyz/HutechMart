@@ -24,6 +24,8 @@ namespace Ministop.ModelsView
 
         public DateTime NgayCapNhat { get; set; }
 
+        public int GiamGia { get; set; }
+
         public string GhiChu { get; set; }
 
         public bool TinhTrang { get; set; }

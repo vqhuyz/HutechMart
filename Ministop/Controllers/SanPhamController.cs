@@ -20,6 +20,12 @@ namespace Ministop.Controllers
             return View(sanPham.GetAll(page, pagesize));
         }
 
+        public ActionResult GiamGia(int id, int giamGia)
+        {
+            bool result = sanPham.GiamGia(id, giamGia);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult ThemMoi()
         {
             ViewBag.LoaiSanPhamID = new SelectList(sanPham.GetAll_LoaiSp(), "ID", "TenLoai");

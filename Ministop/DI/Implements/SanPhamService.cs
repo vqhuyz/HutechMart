@@ -28,11 +28,6 @@ namespace Ministop.DI.Implements
             }
         }
 
-        public void test()
-        {
-
-        }
-
         public SanPhamViewModel GetById(int id)
         {
             using (var connection = new SqlConnection(ConnectionS.connectionString))
@@ -112,6 +107,27 @@ namespace Ministop.DI.Implements
         public bool LoaiSanPham(LoaiSanPhamViewModel loaiSP)
         {
             throw new NotImplementedException();
+        }
+
+        public bool GiamGia(int id, int giamGia)
+        {
+            bool result = true;
+            using (var connection = new SqlConnection(ConnectionS.connectionString))
+            {
+                try
+                {
+                    var capNhat = connection.Execute("sp_GiamGia_SanPham", new
+                    {
+                        Id = id,
+                        giamgia = giamGia
+                    }, commandType: CommandType.StoredProcedure);
+                }
+                catch
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
     }
 }

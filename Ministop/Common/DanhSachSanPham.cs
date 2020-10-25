@@ -44,7 +44,7 @@ namespace Ministop.Common
         {                                                                                                                                                                                              
             get
             {
-                return listSanPham.Sum(p => (p.GiaBan * p.SoLuong) + (p.GiaBan * p.SoLuong * Thue()));
+                return listSanPham.Sum(p => (p.SoLuong * (p.GiaBan - p.GiaBan * p.GiamGia/100)) + (p.SoLuong * (p.GiaBan - p.GiaBan * p.GiamGia / 100) * Thue()));
             }
         }
 

@@ -1,0 +1,44 @@
+﻿@{ ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<form id="formExcel">
+    <input type="file" name="excel" id="excel" />
+    <input type="button" id="btnExcel" value="test" />
+    <input type="button" id="test" value="test2" />
+</form>
+
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>tên</th>
+        </tr>
+    </thead>
+    <tbody id="nhapHang"></tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnExcel").click(function (e) {
+                var formData = new FormData($("#formExcel")[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "/NhapHang/Import",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        $.each(result, function (index, item) {
+                            var str = '<tr>' +
+                                '<td id="thuong-hieu">' + item.ThuongHieu + '</td>' +
+                                '<td id="ten-san-pham"> ' + item.TenSanPham + ' </td>' +
+                                '</tr>'
+                            $("#nhapHang").append(str);
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+}
